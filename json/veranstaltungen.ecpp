@@ -1,0 +1,22 @@
+<%args>
+bool beautify;
+</%args>
+<%pre>
+
+#include "veranstaltungmanager.h"
+#include "managercontext.h"
+#include <cxxtools/json.h>
+
+</%pre>
+<%cpp>
+
+ManagerContext ctx;
+VeranstaltungManager veranstaltungManager(ctx);
+auto veranstaltungen = veranstaltungManager.getVeranstaltungen();
+
+log_debug(veranstaltungen.size() << " Veranstaltungen gelesen");
+
+reply.setContentType("application/json; charset=UTF-8");
+reply.out() << cxxtools::Json(veranstaltungen).beautify(beautify);
+
+</%cpp>

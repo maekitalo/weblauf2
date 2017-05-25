@@ -1,0 +1,22 @@
+<%args>
+unsigned vid;
+bool beautify;
+</%args>
+<%pre>
+
+#include "wettkampfmanager.h"
+#include "managercontext.h"
+#include <cxxtools/json.h>
+
+</%pre>
+<%cpp>
+
+ManagerContext ctx;
+WettkampfManager wettkampfManager(ctx);
+
+auto wettkaempfe = wettkampfManager.getWettkaempfe(vid);
+
+reply.setContentType("application/json; charset=UTF-8");
+reply.out() << cxxtools::Json(wettkaempfe).beautify(beautify);
+
+</%cpp>

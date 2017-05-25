@@ -1,0 +1,87 @@
+/* source: http://www.script-tutorials.com/creating-css3-dropdown-menu/ */
+
+/* main menu styles */
+#nav {
+    display:inline-block;
+    width:100%;
+    margin:0px auto;
+    padding:0;
+
+    box-shadow:0 2px 2px rgba(0,0,0, .5);
+    -moz-box-shadow:0 2px 2px rgba(0,0,0, .5);
+    -webkit-box-shadow:0 2px 2px rgba(0,0,0, .5);
+}
+#nav li {
+    margin:1px;
+    float:left;
+    position:relative;
+    list-style:none;
+}
+#nav li.split {
+    border-top: 1px solid #000;
+    border-color: #666;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+#nav a {
+    font-weight:bold;
+    color:#888;
+    text-decoration:none;
+    display:block;
+    padding:1px 20px;
+}
+
+/* selected menu element */
+#nav .current a, #nav li:hover > a {
+    background:#7788aa;
+    color:#000;
+    border-top:1px solid #f8f8f8;
+
+    box-shadow:0 2px 2px rgba(0,0,0, .7); /*some css3*/
+    -moz-box-shadow:0 2px 2px rgba(0,0,0, .7);
+    -webkit-box-shadow:0 2px 2px rgba(0,0,0, .7);
+}
+
+/* sublevels */
+#nav ul li:hover a, #nav li:hover li a {
+    background:none;
+    border:none;
+    color:#000;
+}
+#nav ul li a:hover {
+    background:#339999;
+    color:#fff;
+}
+
+#nav ul li:first-child > a {
+}
+#nav ul li:last-child > a {
+}
+
+/* drop down */
+#nav li:hover > ul {
+    visibility:visible;
+}
+#nav ul {
+    visibility:hidden;
+    padding:0;
+    width:275px;
+    position:absolute;
+    background:#aabbcc;
+    border:1px solid #7788aa;
+
+    box-shadow:0 2px 2px rgba(0,0,0, .5);
+    -moz-box-shadow:0 2px 2px rgba(0,0,0, .5);
+    -webkit-box-shadow:0 2px 2px rgba(0,0,0, .5);
+}
+#nav ul li {
+    float:none;
+    margin:0;
+}
+#nav ul a {
+    font-weight:normal;
+}
+#nav ul ul {
+    left:160px;
+    top:0px;
+}
