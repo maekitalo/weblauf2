@@ -21,6 +21,7 @@
 #define VERANSTALTUNG_H
 
 #include <string>
+#include <cxxtools/string.h>
 #include <cxxtools/date.h>
 #include <cxxtools/clock.h>
 
@@ -32,9 +33,9 @@ namespace cxxtools
 struct Veranstaltung
 {
     unsigned vid;
-    std::string name;
+    cxxtools::String name;
     cxxtools::Date datum;
-    std::string ort;
+    cxxtools::String ort;
     std::string logo;
 
     bool isNew() const

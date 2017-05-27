@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////
-// json/wettkampf.cpp
+// json/wertungen.cpp
 // generated with ecppc
 //
 
@@ -13,13 +13,13 @@
 #include <cxxtools/log.h>
 #include <stdexcept>
 
-log_define("component.json.wettkampf")
+log_define("component.json.wertungen")
 
 // <%pre>
-#line 5 "json/wettkampf.ecpp"
+#line 6 "json/wertungen.ecpp"
 
 
-#include "wettkampfmanager.h"
+#include "wertungmanager.h"
 #include "managercontext.h"
 #include <cxxtools/json.h>
 
@@ -41,7 +41,7 @@ class _component_ : public tnt::EcppComponent
     unsigned operator() (tnt::HttpRequest& request, tnt::HttpReply& reply, tnt::QueryParams& qparam);
 };
 
-static tnt::EcppComponentFactoryImpl<_component_> Factory("json/wettkampf");
+static tnt::EcppComponentFactoryImpl<_component_> Factory("json/wertungen");
 
 // <%shared>
 // </%shared>
@@ -74,25 +74,26 @@ inline void _tnt_ignore_unused(const T&) { }
 
 unsigned _component_::operator() (tnt::HttpRequest& request, tnt::HttpReply& reply, tnt::QueryParams& qparam)
 {
-  log_trace("json/wettkampf " << qparam.getUrl());
+  log_trace("json/wertungen " << qparam.getUrl());
 
 
   // <%args>
 unsigned vid = qparam.argt< unsigned >("vid", "unsigned");
+unsigned wid = qparam.argt< unsigned >("wid", "unsigned");
 bool beautify = qparam.argt< bool >("beautify", "bool");
   // </%args>
 
   // <%cpp>
-#line 12 "json/wettkampf.ecpp"
+#line 13 "json/wertungen.ecpp"
 
 
 ManagerContext ctx;
-WettkampfManager wettkampfManager(ctx);
+WertungManager wertungManager(ctx);
 
-auto wettkaempfe = wettkampfManager.getWettkaempfe(vid);
+auto wertungen = wertungManager.getWertungen(vid, wid);
 
 reply.setContentType("application/json; charset=UTF-8");
-reply.out() << cxxtools::Json(wettkaempfe).beautify(beautify);
+reply.out() << cxxtools::Json(wertungen).beautify(beautify);
 
 
   // <%/cpp>

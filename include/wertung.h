@@ -2,6 +2,7 @@
 #define WERTUNG_H
 
 #include <string>
+#include <cxxtools/string.h>
 
 namespace cxxtools
 {
@@ -15,20 +16,16 @@ struct Wertung
     unsigned vid;
     unsigned wid;
     unsigned rid;
-    std::string name;
-    std::string abhaengig;
+    cxxtools::String name;
+    unsigned abhaengig;
     std::string urkunde;
-    std::string preis; // in cents
-
-    bool haveAbhaengig() const
-    { return !abhaengig.empty(); }
-    void clearAbhaengig()
-    { abhaengig.clear(); }
+    unsigned preis; // in cents
 
     Wertung()
       : vid(0),
         wid(0),
-        rid(0)
+        rid(0),
+        abhaengig(0)
     { }
 
 };

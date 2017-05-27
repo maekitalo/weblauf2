@@ -9,7 +9,7 @@ define(['jquery', 'veranstaltung'], function($, veranstaltung) {
             function() {
                 my.table = $('#wettkaempfeTable').DataTable({
                     ajax: {
-                        url: 'wettkampf.json',
+                        url: 'wettkaempfe.json',
                         data: { vid: veranstaltung.vid },
                         dataSrc: ''
                     },
@@ -26,9 +26,8 @@ define(['jquery', 'veranstaltung'], function($, veranstaltung) {
                 });
 
                 my.table.on('select', function (e, dt, type, indexes) {
-                    console.log(e, dt, type, indexes);
-                    var veranstaltung = dt.row(indexes[0]).data();
-                    my.vid = veranstaltung.vid;
+                    var wettkampf = dt.row(indexes[0]).data();
+                    my.wid = wettkampf.wid;
                 });
             });
     }

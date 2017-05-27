@@ -8,7 +8,8 @@ lib_LTLIBRARIES = libweblauf.la
 
 libweblauf_la_SOURCES = \
 	json/veranstaltungen.cpp \
-	json/wettkampf.cpp \
+	json/wettkaempfe.cpp \
+	json/wertungen.cpp \
 	lib/managercontext.cpp \
 	lib/person.cpp \
 	lib/teilnehmermanager.cpp \
@@ -49,7 +50,11 @@ staticSources = \
 	resources/js/require.js \
 	resources/js/main.js \
 	resources/js/veranstaltung.js \
+	resources/js/wettkampf.js \
+	resources/js/wertung.js \
 	resources/html/veranstaltung.html \
+	resources/html/wettkampf.html \
+	resources/html/wertung.html \
 	$(jqueryUiSources)
 
 weblauf2_SOURCES = \

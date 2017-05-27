@@ -1,7 +1,7 @@
 #ifndef WETTKAMPF_H
 #define WETTKAMPF_H
 
-#include <string>
+#include <cxxtools/string.h>
 #include <cxxtools/time.h>
 
 namespace cxxtools
@@ -13,7 +13,7 @@ struct Wettkampf
 {
     unsigned vid;
     unsigned wid;
-    std::string name;
+    cxxtools::String name;
     char art;
     unsigned staVon;
     unsigned staBis;
