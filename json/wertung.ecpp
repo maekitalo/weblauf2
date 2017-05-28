@@ -1,6 +1,7 @@
 <%args>
 unsigned vid;
 unsigned wid;
+unsigned rid;
 bool beautify;
 </%args>
 <%pre>
@@ -37,24 +38,15 @@ namespace
 ManagerContext ctx;
 WertungManager wertungManager(ctx);
 
-auto wertungen = wertungManager.getWertungen(vid, wid);
-std::vector<WertungX> wx;
-for (const auto& w: wertungen)
-{
-    const Wertung* wa = 0;
-    if (w.abhaengig())
-    {
-        for (const auto& ww: wertungen)
-        {
-            if (ww.rid() == w.abhaengig())
-            {
-                wa = &ww;
-                break;
-            }
-        }
-    }
+auto w = wertungManager.getWertung(vid, wid, rid);
 
-    wx.emplace_back(w, wa);
+WertungX wx(w);
+
+Wertung wa;
+if (w.abhaengig())
+{
+    wa = wertungManager.getWertung(vid, wid, w.abhaengig());
+    wx._abhaengig = &wa;
 }
 
 reply.setContentType("application/json; charset=UTF-8");

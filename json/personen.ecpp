@@ -1,0 +1,63 @@
+<%args>
+bool beautify;
+unsigned vid = 0;
+bool start;  // attribute from TableQuery
+</%args>
+<%pre>
+
+#include "teilnehmermanager.h"
+#include "managercontext.h"
+#include <TableQuery.h>
+#include <TableResponse.h>
+#include <cxxtools/json.h>
+
+</%pre>
+<%cpp>
+
+reply.setContentType("application/json; charset=UTF-8");
+
+ManagerContext ctx;
+TeilnehmerManager teilnehmerManager(ctx);
+
+if (vid)
+{
+    auto ret = teilnehmerManager.getPersonen(vid);
+    if (start)
+    {
+        TableQuery q;
+        q <<= request.getQueryParams();
+
+        log_debug("query: " << cxxtools::Json(q).beautify(true));
+
+        TableResponse<Teilnehmer> r;
+        r.data(ret);
+        r.apply(q);
+
+        reply.out() << cxxtools::Json(r).beautify(beautify);
+    }
+    else
+    {
+        reply.out() << cxxtools::Json(ret).beautify(beautify);
+    }
+}
+else
+{
+    auto ret = teilnehmerManager.getPersonen();
+    if (start)
+    {
+        TableQuery q;
+        q <<= request.getQueryParams();
+
+        TableResponse<Person> r;
+        r.data(ret);
+        r.apply(q);
+
+        reply.out() << cxxtools::Json(r).beautify(beautify);
+    }
+    else
+    {
+        reply.out() << cxxtools::Json(ret).beautify(beautify);
+    }
+}
+
+</%cpp>

@@ -36,19 +36,31 @@ define(['jquery', 'datatables.net', 'datatables.select'], function($) {
             });
     }
 
-    my.selectWettkampf = function(wettkampf) {
-        if (my.wid !== wettkampf.wid) {
+    my.selectWettkampf = function(wettkampf, cb) {
+        if ($.isNumeric(wettkampf)) {
+            $.getJSON('wettkampf.json', { vid: my.vid, wid: wettkampf },
+                function (w) { my.selectWettkampf(w, cb); });
+        }
+        else if (my.wid !== wettkampf.wid) {
             my.wettkampf = wettkampf;
             my.wid = wettkampf.wid;
             my.wertung = null;
             my.rid = null;
+            if (cb)
+                cb();
         }
     }
 
-    my.selectWertung = function(wertung) {
-        if (my.rid !== wertung.rid) {
+    my.selectWertung = function(wertung, cb) {
+        if ($.isNumeric(wertung)) {
+            $.getJSON('wertung.json', { vid: my.vid, wid: my.wid, rid: wertung },
+                function(w)  { my.selectWertung(w, cb) });
+        }
+        else if (my.rid !== wertung.rid) {
             my.wertung = wertung;
             my.rid = wertung.rid;
+            if (cb)
+                cb();
         }
     }
 

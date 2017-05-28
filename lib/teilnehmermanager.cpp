@@ -64,22 +64,131 @@ std::vector<Person> TeilnehmerManager::searchPerson(unsigned vid, const std::str
         log_debug("lese person");
 
         Person p;
-        r.get(p.pid)
-         .get(p.nachname)
-         .get(p.vorname)
-         .get(p.verein)
-         .get(p.geschlecht)
-         .get(p.jahrgang)
-         .get(p.strasse)
-         .get(p.plz)
-         .get(p.ort)
-         .get(p.land)
-         .get(p.nationalitaet);
+        r.get(p._pid)
+         .get(p._nachname)
+         .get(p._vorname)
+         .get(p._verein)
+         .get(p._geschlecht)
+         .get(p._jahrgang)
+         .get(p._strasse)
+         .get(p._plz)
+         .get(p._ort)
+         .get(p._land)
+         .get(p._nationalitaet);
 
-        personen.push_back(p);
+        personen.emplace_back(std::move(p));
     }
 
     log_debug(personen.size() << " personen gefunden");
 
     return personen;
+}
+
+std::vector<Person> TeilnehmerManager::getPersonen()
+{
+    tntdb::Statement sel = _ctx.impl().conn().prepareCached(R"SQL(
+        select per_pid, per_nachname, per_vorname, per_verein, per_geschlecht,
+               per_jahrgang, per_strasse, per_plz, per_ort, per_land,
+               per_nationalitaet
+          from person
+        )SQL");
+
+    std::vector<Person> personen;
+
+    for (auto r: sel)
+    {
+        Person p;
+        r.get(p._pid)
+         .get(p._nachname)
+         .get(p._vorname)
+         .get(p._verein)
+         .get(p._geschlecht)
+         .get(p._jahrgang)
+         .get(p._strasse)
+         .get(p._plz)
+         .get(p._ort)
+         .get(p._land)
+         .get(p._nationalitaet);
+
+        personen.emplace_back(std::move(p));
+    }
+
+    return personen;
+}
+
+std::vector<Teilnehmer> TeilnehmerManager::getPersonen(unsigned vid)
+{
+    tntdb::Statement sel = _ctx.impl().conn().prepareCached(R"SQL(
+        select per_pid, per_nachname, per_vorname, per_verein, per_geschlecht,
+               per_jahrgang, per_strasse, per_plz, per_ort, per_land,
+               per_nationalitaet, sta_snr
+          from person
+          left outer join startnummer
+            on per_pid = sta_pid
+           and sta_vid = :vid
+        )SQL");
+
+    sel.set("vid", vid);
+
+    std::vector<Teilnehmer> teilnehmer;
+
+    for (auto r: sel)
+    {
+        Teilnehmer p;
+        bool isnull;
+        r.get(p._pid)
+         .get(p._nachname)
+         .get(p._vorname)
+         .get(p._verein)
+         .get(p._geschlecht)
+         .get(p._jahrgang)
+         .get(p._strasse)
+         .get(p._plz)
+         .get(p._ort)
+         .get(p._land)
+         .get(p._nationalitaet)
+         .get(p._startnummer, isnull);
+
+        teilnehmer.emplace_back(std::move(p));
+    }
+
+    return teilnehmer;
+}
+
+std::vector<Teilnehmer> TeilnehmerManager::getTeilnehmer(unsigned vid)
+{
+    tntdb::Statement sel = _ctx.impl().conn().prepareCached(R"SQL(
+        select per_pid, per_nachname, per_vorname, per_verein, per_geschlecht,
+               per_jahrgang, per_strasse, per_plz, per_ort, per_land,
+               per_nationalitaet, sta_snr
+          from person
+          join startnummer
+            on per_pid = sta_pid
+         where sta_vid = :vid
+        )SQL");
+
+    sel.set("vid", vid);
+
+    std::vector<Teilnehmer> teilnehmer;
+
+    for (auto r: sel)
+    {
+        Teilnehmer p;
+        r.get(p._pid)
+         .get(p._nachname)
+         .get(p._vorname)
+         .get(p._verein)
+         .get(p._geschlecht)
+         .get(p._jahrgang)
+         .get(p._strasse)
+         .get(p._plz)
+         .get(p._ort)
+         .get(p._land)
+         .get(p._nationalitaet)
+         .get(p._startnummer);
+
+        teilnehmer.emplace_back(std::move(p));
+    }
+
+    return teilnehmer;
 }

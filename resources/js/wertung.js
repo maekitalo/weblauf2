@@ -7,10 +7,25 @@ define(['jquery', 'veranstaltung', 'wettkampf'], function($, veranstaltung, wett
 
         $('#content').load('html/wertung.html', {},
             function() {
+                $.getJSON('wettkaempfe.json', { vid: veranstaltung.vid }, function(data) {
+                    var sel = $('#wettkampf');
+                    $.each(data, function (wid, wer) {
+                        $('<option>').val(wer.wid).text(wer.name).appendTo(sel);
+                    });
+
+                    sel.val(veranstaltung.wid)
+                       .change(function(ev) {
+                            veranstaltung.selectWettkampf(
+                                $(this).val(), function() {
+                                    my.table.ajax.reload();
+                                });
+                        });
+                });
+
                 my.table = $('#wertungenTable').DataTable({
                     ajax: {
                         url: 'wertungen.json',
-                        data: { vid: veranstaltung.vid, wid: veranstaltung.wid },
+                        data: function() { return { vid: veranstaltung.vid, wid: veranstaltung.wid } },
                         dataSrc: ''
                     },
                     select: true,
@@ -24,7 +39,7 @@ define(['jquery', 'veranstaltung', 'wettkampf'], function($, veranstaltung, wett
                         { data: 'urkunde' },
                         { data: 'preis' }
                     ],
-                    order: [ [0, 'asc'] ]
+                    order: [0, 'asc']
                 });
 
                 my.table.on('select', function (e, dt, type, indexes) {

@@ -1,0 +1,21 @@
+<%args>
+bool beautify;
+unsigned vid;
+</%args>
+<%pre>
+
+#include "teilnehmermanager.h"
+#include "managercontext.h"
+#include <cxxtools/json.h>
+
+</%pre>
+<%cpp>
+
+ManagerContext ctx;
+TeilnehmerManager teilnehmerManager(ctx);
+
+auto ret = teilnehmerManager.getTeilnehmer(vid);
+reply.setContentType("application/json; charset=UTF-8");
+reply.out() << cxxtools::Json(ret).beautify(beautify);
+
+</%cpp>

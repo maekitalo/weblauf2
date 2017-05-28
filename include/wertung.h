@@ -6,7 +6,7 @@
 
 namespace cxxtools
 {
-  class SerializationInfo;
+    class SerializationInfo;
 }
 
 class WertungManager;

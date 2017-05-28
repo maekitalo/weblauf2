@@ -9,6 +9,7 @@ lib_LTLIBRARIES = libweblauf.la
 libweblauf_la_SOURCES = \
 	lib/managercontext.cpp \
 	lib/person.cpp \
+	lib/teilnehmer.cpp \
 	lib/teilnehmermanager.cpp \
 	lib/veranstaltung.cpp \
 	lib/veranstaltungmanager.cpp \
@@ -16,7 +17,9 @@ libweblauf_la_SOURCES = \
 	lib/wettkampf.cpp \
 	lib/wertung.cpp \
 	lib/wertungsgruppe.cpp \
-	lib/wertungmanager.cpp
+	lib/wertungmanager.cpp \
+	lib/TableQuery.cpp \
+	lib/TableResponse.cpp
 
 libweblauf_la_LIBADD = -lcxxtools -ltntdb
 
@@ -40,8 +43,12 @@ jqueryUiSources = \
 ecppSources = \
 	json/veranstaltung.ecpp \
 	json/veranstaltungen.ecpp \
+	json/wettkampf.ecpp \
 	json/wettkaempfe.ecpp \
 	json/wertungen.ecpp \
+	json/wertung.ecpp \
+	json/personen.ecpp \
+	json/teilnehmer.ecpp \
 	webmain.ecpp
 
 staticSources = \
@@ -72,6 +79,7 @@ weblauf2_LDADD = $(top_builddir)/libweblauf.la
 include_HEADERS = \
 	configuration.h
 	include/person.h \
+	include/teilnehmer.h \
 	include/teilnehmermanager.h \
 	include/veranstaltung.h \
 	include/veranstaltungmanager.h \

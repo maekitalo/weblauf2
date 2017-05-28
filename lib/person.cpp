@@ -5,34 +5,33 @@
 
 #include <person.h>
 #include <cxxtools/serializationinfo.h>
-#include <cxxtools/utf8.h>
 
 void operator>>= (const cxxtools::SerializationInfo& si, Person& p)
 {
-    si.getMember("pid") >>= p.pid;
-    si.getMember("nachname") >>= cxxtools::Utf8(p.nachname);
-    si.getMember("vorname") >>= cxxtools::Utf8(p.vorname);
-    si.getMember("verein") >>= cxxtools::Utf8(p.verein);
-    si.getMember("geschlecht") >>= p.geschlecht;
-    si.getMember("jahrgang") >>= p.jahrgang;
-    si.getMember("strasse") >>= cxxtools::Utf8(p.strasse);
-    si.getMember("plz") >>= cxxtools::Utf8(p.plz);
-    si.getMember("ort") >>= cxxtools::Utf8(p.ort);
-    si.getMember("land") >>= cxxtools::Utf8(p.land);
-    si.getMember("nationalitaet") >>= cxxtools::Utf8(p.nationalitaet);
+    si.getMember("pid") >>= p._pid;
+    si.getMember("nachname") >>= p._nachname;
+    si.getMember("vorname") >>= p._vorname;
+    si.getMember("verein") >>= p._verein;
+    si.getMember("geschlecht") >>= p._geschlecht;
+    si.getMember("jahrgang") >>= p._jahrgang;
+    si.getMember("strasse") >>= p._strasse;
+    si.getMember("plz") >>= p._plz;
+    si.getMember("ort") >>= p._ort;
+    si.getMember("land") >>= p._land;
+    si.getMember("nationalitaet") >>= p._nationalitaet;
 }
 
 void operator<<= (cxxtools::SerializationInfo& si, const Person& p)
 {
-    si.addMember("pid") <<= p.pid;
-    si.addMember("nachname") <<= cxxtools::Utf8(p.nachname);
-    si.addMember("vorname") <<= cxxtools::Utf8(p.vorname);
-    si.addMember("verein") <<= cxxtools::Utf8(p.verein);
-    si.addMember("geschlecht") <<= p.geschlecht;
-    si.addMember("jahrgang") <<= p.jahrgang;
-    si.addMember("strasse") <<= cxxtools::Utf8(p.strasse);
-    si.addMember("plz") <<= cxxtools::Utf8(p.plz);
-    si.addMember("ort") <<= cxxtools::Utf8(p.ort);
-    si.addMember("land") <<= cxxtools::Utf8(p.land);
-    si.addMember("nationalitaet") <<= cxxtools::Utf8(p.nationalitaet);
+    si.addMember("pid") <<= p._pid;
+    si.addMember("nachname") <<= p._nachname;
+    si.addMember("vorname") <<= p._vorname;
+    si.addMember("verein") <<= p._verein;
+    si.addMember("geschlecht") <<= p._geschlecht;
+    si.addMember("jahrgang") <<= p._jahrgang;
+    si.addMember("strasse") <<= p._strasse;
+    si.addMember("plz") <<= p._plz;
+    si.addMember("ort") <<= p._ort;
+    si.addMember("land") <<= p._land;
+    si.addMember("nationalitaet") <<= p._nationalitaet;
 }

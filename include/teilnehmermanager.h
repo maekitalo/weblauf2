@@ -2,6 +2,7 @@
 #define TEILNEHMERMANAGER_H
 
 #include "person.h"
+#include "teilnehmer.h"
 
 #include <managercontext.h>
 
@@ -15,6 +16,9 @@ class TeilnehmerManager
         { }
 
         std::vector<Person> searchPerson(unsigned vid, const std::string& s);
+        std::vector<Person> getPersonen();
+        std::vector<Teilnehmer> getPersonen(unsigned vid);
+        std::vector<Teilnehmer> getTeilnehmer(unsigned vid);
 
     private:
         ManagerContext& _ctx;
