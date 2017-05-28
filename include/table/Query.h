@@ -11,10 +11,13 @@ namespace cxxtools
     class QueryParams;
 }
 
-class TableQuery
+namespace table
 {
-    friend void operator>>= (const cxxtools::SerializationInfo& si, TableQuery& tableQuery);
-    friend void operator<<= (cxxtools::SerializationInfo& si, const TableQuery& tableQuery);
+
+class Query
+{
+    friend void operator>>= (const cxxtools::SerializationInfo& si, Query& tableQuery);
+    friend void operator<<= (cxxtools::SerializationInfo& si, const Query& tableQuery);
 
 public:
     class Search
@@ -88,6 +91,8 @@ public:
     int compare(const cxxtools::SerializationInfo& row1, const cxxtools::SerializationInfo& row2) const;
 };
 
-void operator<<= (TableQuery& q, const cxxtools::QueryParams& p);
+void operator<<= (Query& q, const cxxtools::QueryParams& p);
+
+}
 
 #endif

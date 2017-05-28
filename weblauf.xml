@@ -35,18 +35,6 @@
         <category>weblauf</category>
         <level>TRACE</level>
       </logger>
-      <logger>
-        <category>TableQuery</category>
-        <level>TRACE</level>
-      </logger>
-      <logger>
-        <category>TableResponse</category>
-        <level>TRACE</level>
-      </logger>
-      <logger>
-        <category>controller</category>
-        <level>INFO</level>
-      </logger>
     </loggers>
 
     <!--

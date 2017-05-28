@@ -1,10 +1,13 @@
-#include <TableResponse.h>
-#include <TableQuery.h>
+#include <table/Response.h>
+#include <table/Query.h>
 
 #include <cxxtools/json.h>
 #include <algorithm>
 
-std::vector<unsigned> apply(const TableQuery& query, const cxxtools::SerializationInfo& data, unsigned& recordsFiltered)
+namespace table
+{
+
+std::vector<unsigned> apply(const Query& query, const cxxtools::SerializationInfo& data, unsigned& recordsFiltered)
 {
     std::vector<unsigned> ret;
 
@@ -53,4 +56,6 @@ std::vector<unsigned> apply(const TableQuery& query, const cxxtools::Serializati
         ret.erase(ret.begin(), ret.begin() + query.start());
 
     return ret;
+}
+
 }

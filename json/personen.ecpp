@@ -7,8 +7,8 @@ bool start;  // attribute from TableQuery
 
 #include "teilnehmermanager.h"
 #include "managercontext.h"
-#include <TableQuery.h>
-#include <TableResponse.h>
+#include <table/Query.h>
+#include <table/Response.h>
 #include <cxxtools/json.h>
 
 </%pre>
@@ -24,12 +24,10 @@ if (vid)
     auto ret = teilnehmerManager.getPersonen(vid);
     if (start)
     {
-        TableQuery q;
+        table::Query q;
         q <<= request.getQueryParams();
 
-        log_debug("query: " << cxxtools::Json(q).beautify(true));
-
-        TableResponse<Teilnehmer> r;
+        table::Response<Teilnehmer> r;
         r.data(ret);
         r.apply(q);
 
@@ -45,10 +43,10 @@ else
     auto ret = teilnehmerManager.getPersonen();
     if (start)
     {
-        TableQuery q;
+        table::Query q;
         q <<= request.getQueryParams();
 
-        TableResponse<Person> r;
+        table::Response<Person> r;
         r.data(ret);
         r.apply(q);
 

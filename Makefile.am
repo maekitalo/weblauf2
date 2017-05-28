@@ -9,6 +9,8 @@ lib_LTLIBRARIES = libweblauf.la
 libweblauf_la_SOURCES = \
 	lib/managercontext.cpp \
 	lib/person.cpp \
+	lib/table/Query.cpp \
+	lib/table/Response.cpp \
 	lib/teilnehmer.cpp \
 	lib/teilnehmermanager.cpp \
 	lib/veranstaltung.cpp \
@@ -17,9 +19,7 @@ libweblauf_la_SOURCES = \
 	lib/wettkampf.cpp \
 	lib/wertung.cpp \
 	lib/wertungsgruppe.cpp \
-	lib/wertungmanager.cpp \
-	lib/TableQuery.cpp \
-	lib/TableResponse.cpp
+	lib/wertungmanager.cpp
 
 libweblauf_la_LIBADD = -lcxxtools -ltntdb
 
@@ -57,9 +57,11 @@ staticSources = \
 	resources/js/jquery-3.2.1.js \
 	resources/js/require.js \
 	resources/js/main.js \
+	resources/js/teilnehmer.js \
 	resources/js/veranstaltung.js \
 	resources/js/wettkampf.js \
 	resources/js/wertung.js \
+	resources/html/teilnehmer.html \
 	resources/html/veranstaltung.html \
 	resources/html/wettkampf.html \
 	resources/html/wertung.html \
@@ -79,6 +81,8 @@ weblauf2_LDADD = $(top_builddir)/libweblauf.la
 include_HEADERS = \
 	configuration.h
 	include/person.h \
+	include/table/Query.h \
+	include/table/Response.h \
 	include/teilnehmer.h \
 	include/teilnehmermanager.h \
 	include/veranstaltung.h \

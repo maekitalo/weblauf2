@@ -2,16 +2,19 @@
 #define FRAME_TABLERESPONSE_H
 
 #include <cxxtools/serializationinfo.h>
-#include <TableQuery.h>
+#include <table/Query.h>
 #include <utility>
 #include <string>
 
-class TableQuery;
+namespace table
+{
 
-std::vector<unsigned> apply(const TableQuery& query, const cxxtools::SerializationInfo& data, unsigned& recordsFiltered);
+class Query;
+
+std::vector<unsigned> apply(const Query& query, const cxxtools::SerializationInfo& data, unsigned& recordsFiltered);
 
 template <typename ObjectType>
-class TableResponse
+class Response
 {
 public:
     typedef std::vector<ObjectType> TableType;
@@ -25,7 +28,7 @@ private:
 
 public:
     friend
-    void operator>>= (const cxxtools::SerializationInfo& si, TableResponse& tableResponse)
+    void operator>>= (const cxxtools::SerializationInfo& si, Response& tableResponse)
     {
         si.getMember("draw") >>= tableResponse._draw;
         si.getMember("recordsTotal") >>= tableResponse._recordsTotal;
@@ -35,7 +38,7 @@ public:
     }
 
     friend
-    void operator<<= (cxxtools::SerializationInfo& si, const TableResponse& tableResponse)
+    void operator<<= (cxxtools::SerializationInfo& si, const Response& tableResponse)
     {
         si.addMember("draw") <<= tableResponse._draw;
         si.addMember("recordsTotal") <<= tableResponse._recordsTotal;
@@ -44,13 +47,13 @@ public:
         si.addMember("error") <<= tableResponse._error;
     }
 
-    TableResponse()
+    Response()
         : _draw(0),
           _recordsTotal(0),
           _recordsFiltered(0)
         { }
 
-    explicit TableResponse(TableType&& data)
+    explicit Response(TableType&& data)
         : _draw(0),
           _recordsTotal(0),
           _recordsFiltered(0),
@@ -71,11 +74,11 @@ public:
     void error(const std::string& v)   { _error = v; }
 
     // Apply filtering and sorting to data
-    void apply(const TableQuery& query)
+    void apply(const Query& query)
     {
         cxxtools::SerializationInfo si;
         si <<= _data;
-        std::vector<unsigned> idx = ::apply(query, si, _recordsFiltered);
+        std::vector<unsigned> idx = table::apply(query, si, _recordsFiltered);
         recordsTotal(data().size());
 
         TableType newData;
@@ -88,9 +91,9 @@ public:
     // Optimized version - pass possibly cached serialization info to appy
     // method to save the step to serialize the data first.
 
-    void apply(const TableQuery& query, const cxxtools::SerializationInfo& si)
+    void apply(const Query& query, const cxxtools::SerializationInfo& si)
     {
-        std::vector<unsigned> idx = ::apply(query, si, _recordsFiltered);
+        std::vector<unsigned> idx = table::apply(query, si, _recordsFiltered);
         recordsTotal(data().size());
 
         TableType newData;
@@ -101,5 +104,7 @@ public:
     }
 
 };
+
+}
 
 #endif

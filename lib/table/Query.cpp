@@ -1,4 +1,4 @@
-#include <TableQuery.h>
+#include <table/Query.h>
 
 #include <cxxtools/serializationinfo.h>
 #include <cxxtools/serializationerror.h>
@@ -7,7 +7,10 @@
 
 #include <algorithm>
 
-log_define("TableQuery")
+log_define("table.Query")
+
+namespace table
+{
 
 static int compareValues(const cxxtools::SerializationInfo& col1, const cxxtools::SerializationInfo& col2)
 {
@@ -87,7 +90,7 @@ static int compareValues(const cxxtools::SerializationInfo& col1, const cxxtools
     return c;
 }
 
-int TableQuery::compare(const cxxtools::SerializationInfo& row1, const cxxtools::SerializationInfo& row2) const
+int Query::compare(const cxxtools::SerializationInfo& row1, const cxxtools::SerializationInfo& row2) const
 {
     for (auto o: _order)
     {
@@ -101,7 +104,7 @@ int TableQuery::compare(const cxxtools::SerializationInfo& row1, const cxxtools:
     return 0;
 }
 
-void operator>>= (const cxxtools::SerializationInfo& si, TableQuery& tableQuery)
+void operator>>= (const cxxtools::SerializationInfo& si, Query& tableQuery)
 {
     si.getMember("draw") >>= tableQuery._draw;
     si.getMember("columns") >>= tableQuery._columns;
@@ -114,7 +117,7 @@ void operator>>= (const cxxtools::SerializationInfo& si, TableQuery& tableQuery)
             throw cxxtools::SerializationError("invalid ordering");
 }
 
-void operator<<= (cxxtools::SerializationInfo& si, const TableQuery& tableQuery)
+void operator<<= (cxxtools::SerializationInfo& si, const Query& tableQuery)
 {
     si.addMember("draw") <<= tableQuery._draw;
     si.addMember("columns") <<= tableQuery._columns;
@@ -124,7 +127,7 @@ void operator<<= (cxxtools::SerializationInfo& si, const TableQuery& tableQuery)
     si.addMember("search") <<= tableQuery._search;
 }
 
-bool TableQuery::Search::match(const std::string& value) const
+bool Query::Search::match(const std::string& value) const
 {
     if (_value.empty())
         return true;
@@ -154,19 +157,19 @@ bool TableQuery::Search::match(const std::string& value) const
     }
 }
 
-void operator>>= (const cxxtools::SerializationInfo& si, TableQuery::Search& search)
+void operator>>= (const cxxtools::SerializationInfo& si, Query::Search& search)
 {
     si.getMember("value") >>= search._value;
     si.getMember("regex") >>= search._regex;
 }
 
-void operator<<= (cxxtools::SerializationInfo& si, const TableQuery::Search& search)
+void operator<<= (cxxtools::SerializationInfo& si, const Query::Search& search)
 {
     si.addMember("value") <<= search._value;
     si.addMember("regex") <<= search._regex;
 }
 
-void operator>>= (const cxxtools::SerializationInfo& si, TableQuery::Column& column)
+void operator>>= (const cxxtools::SerializationInfo& si, Query::Column& column)
 {
     si.getMember("data") >>= column._data;
     si.getMember("name") >>= column._name;
@@ -175,7 +178,7 @@ void operator>>= (const cxxtools::SerializationInfo& si, TableQuery::Column& col
     si.getMember("search") >>= column._search;
 }
 
-void operator<<= (cxxtools::SerializationInfo& si, const TableQuery::Column& column)
+void operator<<= (cxxtools::SerializationInfo& si, const Query::Column& column)
 {
     si.addMember("data") <<= column._data;
     si.addMember("name") <<= column._name;
@@ -184,7 +187,7 @@ void operator<<= (cxxtools::SerializationInfo& si, const TableQuery::Column& col
     si.addMember("search") <<= column._search;
 }
 
-void operator>>= (const cxxtools::SerializationInfo& si, TableQuery::Order& order)
+void operator>>= (const cxxtools::SerializationInfo& si, Query::Order& order)
 {
     std::string dir;
     si.getMember("column") >>= order._column;
@@ -192,17 +195,19 @@ void operator>>= (const cxxtools::SerializationInfo& si, TableQuery::Order& orde
     order._asc = (dir == "asc");
 }
 
-void operator<<= (cxxtools::SerializationInfo& si, const TableQuery::Order& order)
+void operator<<= (cxxtools::SerializationInfo& si, const Query::Order& order)
 {
     si.addMember("column") <<= order._column;
     si.addMember("dir") <<= (order._asc ? "asc" : "desc");
 }
 
-void operator<<= (TableQuery& q, const cxxtools::QueryParams& p)
+void operator<<= (Query& q, const cxxtools::QueryParams& p)
 {
     log_debug("convert query params " << p.getUrl());
     cxxtools::SerializationInfo si;
     si <<= p;
     log_debug(si);
     si >>= q;
+}
+
 }
