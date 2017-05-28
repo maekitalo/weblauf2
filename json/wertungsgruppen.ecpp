@@ -1,0 +1,23 @@
+<%args>
+unsigned vid;
+unsigned wid;
+bool beautify;
+</%args>
+<%pre>
+
+#include "wertungmanager.h"
+#include "managercontext.h"
+#include <cxxtools/json.h>
+
+</%pre>
+<%cpp>
+
+ManagerContext ctx;
+WertungManager wertungManager(ctx);
+
+auto wg = wertungManager.getWertungsgruppen(vid, wid);
+
+reply.setContentType("application/json; charset=UTF-8");
+reply.out() << cxxtools::Json(wg).beautify(beautify);
+
+</%cpp>

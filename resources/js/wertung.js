@@ -17,7 +17,10 @@ define(['jquery', 'veranstaltung', 'wettkampf'], function($, veranstaltung, wett
                     columns: [
                         { data: 'rid' },
                         { data: 'name' },
-                        { data: 'abhaengig' },
+                        { data: 'abhaengig',
+                          render: function(data, type, row, meta) {
+                                return row.aw ? row.aw.name : ''; }
+                        },
                         { data: 'urkunde' },
                         { data: 'preis' }
                     ],

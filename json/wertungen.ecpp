@@ -9,6 +9,28 @@ bool beautify;
 #include "managercontext.h"
 #include <cxxtools/json.h>
 
+namespace
+{
+    struct WertungX
+    {
+        const Wertung& _wertung;
+        const Wertung* _abhaengig;
+
+        WertungX(const Wertung& wertung, const Wertung* abhaengig = 0)
+            : _wertung(wertung),
+              _abhaengig(abhaengig)
+            {
+            }
+    };
+
+    void operator<<= (cxxtools::SerializationInfo& si, const WertungX& w)
+    {
+        si <<= w._wertung;
+        if (w._abhaengig)
+            si.addMember("aw") <<= *(w._abhaengig);
+    }
+}
+
 </%pre>
 <%cpp>
 
@@ -16,8 +38,26 @@ ManagerContext ctx;
 WertungManager wertungManager(ctx);
 
 auto wertungen = wertungManager.getWertungen(vid, wid);
+std::vector<WertungX> wx;
+for (const auto& w: wertungen)
+{
+    const Wertung* wa = 0;
+    if (w.abhaengig())
+    {
+        for (const auto& ww: wertungen)
+        {
+            if (ww.rid() == w.abhaengig())
+            {
+                wa = &ww;
+                break;
+            }
+        }
+    }
+        
+    wx.emplace_back(w, wa);
+}
 
 reply.setContentType("application/json; charset=UTF-8");
-reply.out() << cxxtools::Json(wertungen).beautify(beautify);
+reply.out() << cxxtools::Json(wx).beautify(beautify);
 
 </%cpp>

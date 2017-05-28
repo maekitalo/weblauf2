@@ -49,15 +49,11 @@ std::vector<Wertung> WertungManager::getWertungen(unsigned vid, unsigned wid)
     log_debug("getWertungen(" << vid << ", " << wid << ')');
 
     tntdb::Statement st = _ctx.impl().conn().prepareCached(R"SQL(
-        select w.wer_rid, w.wer_name, a.wer_name, w.wer_urkunde, w.wer_preis
-          from wertung w
-          left outer join wertung a
-            on a.wer_vid = w.wer_vid
-           and a.wer_wid = w.wer_wid
-           and a.wer_rid = w.wer_abhaengig
-         where w.wer_vid = :vid
-           and w.wer_wid = :wid
-          order by w.wer_rid
+        select wer_rid, wer_name, wer_abhaengig, wer_urkunde, wer_preis
+          from wertung
+         where wer_vid = :vid
+           and wer_wid = :wid
+          order by wer_rid
         )SQL");
 
     st.set("vid", vid)
@@ -67,8 +63,7 @@ std::vector<Wertung> WertungManager::getWertungen(unsigned vid, unsigned wid)
 
     for (auto r: st)
     {
-        wertungen.resize(wertungen.size() + 1);
-        auto& w = wertungen.back();
+        Wertung w;
         w._vid = vid;
         w._wid = wid;
         r.get(w._rid)
@@ -76,6 +71,7 @@ std::vector<Wertung> WertungManager::getWertungen(unsigned vid, unsigned wid)
          .get(w._abhaengig)
          .get(w._urkunde)
          .get(w._preis);
+        wertungen.emplace_back(std::move(w));
     }
 
     log_debug(wertungen.size() << " Wertungen");

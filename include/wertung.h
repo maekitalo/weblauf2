@@ -23,7 +23,7 @@ class Wertung
     cxxtools::String _name;
     unsigned _abhaengig;
     std::string _urkunde;
-    unsigned _preis; // in cents
+    double _preis;
 
 public:
     Wertung()
@@ -40,7 +40,7 @@ public:
     const cxxtools::String& name() const         { return _name; }
     unsigned abhaengig() const                   { return _abhaengig; }
     const std::string& urkunde() const           { return _urkunde; }
-    unsigned preis() const                       { return _preis; }
+    double preis() const                         { return _preis; }
 };
 
 #endif // WERTUNG_H

@@ -28,8 +28,12 @@
         <level>INFO</level>
       </logger>
       <logger>
-        <category>tntnet.dispatcher</category>
-        <level>DEBUG</level>
+        <category>component</category>
+        <level>TRACE</level>
+      </logger>
+      <logger>
+        <category>weblauf</category>
+        <level>TRACE</level>
       </logger>
       <logger>
         <category>controller</category>
