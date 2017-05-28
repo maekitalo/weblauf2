@@ -27,17 +27,17 @@ Wettkampf WettkampfManager::getWettkampf(unsigned vid, unsigned wid)
         )SQL");
 
     Wettkampf wettkampf;
-    wettkampf.vid = vid;
+    wettkampf._vid = vid;
 
     st.set("vid", vid)
       .set("wid", wid)
       .selectRow()
-      .get(wettkampf.wid)
-      .get(wettkampf.name)
-      .get(wettkampf.art)
-      .get(wettkampf.staVon)
-      .get(wettkampf.staBis)
-      .get(wettkampf.startzeit);
+      .get(wettkampf._wid)
+      .get(wettkampf._name)
+      .get(wettkampf._art)
+      .get(wettkampf._staVon)
+      .get(wettkampf._staBis)
+      .get(wettkampf._startzeit);
 
     return wettkampf;
 }
@@ -58,13 +58,13 @@ std::vector<Wettkampf> WettkampfManager::getWettkaempfe(unsigned vid)
     {
         wettkaempfe.resize(wettkaempfe.size() + 1);
         auto& w = wettkaempfe.back();
-        w.vid = vid;
-        r.get(w.wid)
-         .get(w.name)
-         .get(w.art)
-         .get(w.staVon)
-         .get(w.staBis)
-         .get(w.startzeit);
+        w._vid = vid;
+        r.get(w._wid)
+         .get(w._name)
+         .get(w._art)
+         .get(w._staVon)
+         .get(w._staBis)
+         .get(w._startzeit);
     }
 
     log_debug(wettkaempfe.size() << " wettkaempfe found");

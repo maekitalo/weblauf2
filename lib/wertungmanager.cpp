@@ -28,18 +28,18 @@ Wertung WertungManager::getWertung(unsigned vid, unsigned wid, unsigned rid)
         )SQL");
 
     Wertung wertung;
-    wertung.vid = vid;
-    wertung.wid = wid;
+    wertung._vid = vid;
+    wertung._wid = wid;
 
     st.set("vid", vid)
       .set("wid", wid)
       .set("rid", rid)
       .selectRow()
-      .get(wertung.rid)
-      .get(wertung.name)
-      .get(wertung.abhaengig)
-      .get(wertung.urkunde)
-      .get(wertung.preis);
+      .get(wertung._rid)
+      .get(wertung._name)
+      .get(wertung._abhaengig)
+      .get(wertung._urkunde)
+      .get(wertung._preis);
 
     return wertung;
 }
@@ -69,13 +69,13 @@ std::vector<Wertung> WertungManager::getWertungen(unsigned vid, unsigned wid)
     {
         wertungen.resize(wertungen.size() + 1);
         auto& w = wertungen.back();
-        w.vid = vid;
-        w.wid = wid;
-        r.get(w.rid)
-         .get(w.name)
-         .get(w.abhaengig)
-         .get(w.urkunde)
-         .get(w.preis);
+        w._vid = vid;
+        w._wid = wid;
+        r.get(w._rid)
+         .get(w._name)
+         .get(w._abhaengig)
+         .get(w._urkunde)
+         .get(w._preis);
     }
 
     log_debug(wertungen.size() << " Wertungen");
@@ -105,16 +105,16 @@ Wertungsgruppe WertungManager::getWertungsgruppe(unsigned vid, unsigned wid, uns
       .set("wid", wid)
       .set("gid", gid);
 
-    wertungsgruppe.vid = vid;
-    wertungsgruppe.wid = wid;
-    wertungsgruppe.gid = gid;
+    wertungsgruppe._vid = vid;
+    wertungsgruppe._wid = wid;
+    wertungsgruppe._gid = gid;
 
     for (auto r: st)
     {
-        r[0].get(wertungsgruppe.name);
+        r[0].get(wertungsgruppe._name);
         unsigned rid;
         if (r[1].get(rid))
-            wertungsgruppe.rid.push_back(rid);
+            wertungsgruppe._rid.push_back(rid);
     }
 
     return wertungsgruppe;
@@ -146,21 +146,21 @@ std::vector<Wertungsgruppe> WertungManager::getWertungsgruppen(unsigned vid, uns
     {
         r[0].get(gid);
 
-        if (wertungsgruppen.empty() || wertungsgruppen.back().gid != gid)
+        if (wertungsgruppen.empty() || wertungsgruppen.back()._gid != gid)
         {
             wertungsgruppen.emplace_back();
             auto& w = wertungsgruppen.back();
-            w.vid = vid;
-            w.wid = wid;
-            w.gid = gid;
+            w._vid = vid;
+            w._wid = wid;
+            w._gid = gid;
         }
 
         auto& w = wertungsgruppen.back();
-        r[1].get(w.name);
+        r[1].get(w._name);
 
         unsigned rid;
         if (r[2].get(rid))
-            w.rid.push_back(rid);
+            w._rid.push_back(rid);
     }
 
     log_debug(wertungsgruppen.size() << " Wertungsgruppen");

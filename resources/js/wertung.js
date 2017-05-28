@@ -2,7 +2,7 @@ define(['jquery', 'veranstaltung', 'wettkampf'], function($, veranstaltung, wett
     var my = {}
 
     my.onLoad = function() {
-        if (!wettkampf.wid)
+        if (!veranstaltung.wid)
             return;
 
         $('#content').load('html/wertung.html', {},
@@ -10,7 +10,7 @@ define(['jquery', 'veranstaltung', 'wettkampf'], function($, veranstaltung, wett
                 my.table = $('#wertungenTable').DataTable({
                     ajax: {
                         url: 'wertungen.json',
-                        data: { vid: veranstaltung.vid, wid: wettkampf.wid },
+                        data: { vid: veranstaltung.vid, wid: veranstaltung.wid },
                         dataSrc: ''
                     },
                     select: true,
@@ -26,7 +26,7 @@ define(['jquery', 'veranstaltung', 'wettkampf'], function($, veranstaltung, wett
 
                 my.table.on('select', function (e, dt, type, indexes) {
                     var wertung = dt.row(indexes[0]).data();
-                    my.rid = wertung.rid;
+                    veranstaltung.selectWertung(wertung);
                 });
             });
     }

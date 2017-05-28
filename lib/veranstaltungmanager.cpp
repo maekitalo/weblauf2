@@ -22,11 +22,11 @@ Veranstaltung VeranstaltungManager::getVeranstaltung(unsigned vid)
 
     st.set("vid", vid)
       .selectRow()
-      .get(veranstaltung.vid)
-      .get(veranstaltung.datum)
-      .get(veranstaltung.name)
-      .get(veranstaltung.ort)
-      .get(veranstaltung.logo);
+      .get(veranstaltung._vid)
+      .get(veranstaltung._datum)
+      .get(veranstaltung._name)
+      .get(veranstaltung._ort)
+      .get(veranstaltung._logo);
 
     return veranstaltung;
 }
@@ -43,11 +43,11 @@ std::vector<Veranstaltung> VeranstaltungManager::getVeranstaltungen()
     for (auto r: st)
     {
         Veranstaltung v;
-        r.get(v.vid)
-         .get(v.datum)
-         .get(v.name)
-         .get(v.ort)
-         .get(v.logo);
+        r.get(v._vid)
+         .get(v._datum)
+         .get(v._name)
+         .get(v._ort)
+         .get(v._logo);
 
         veranstaltungen.push_back(v);
     }
@@ -76,10 +76,10 @@ void VeranstaltungManager::putVeranstaltung(const Veranstaltung& v)
               .get(vid);
 
         ins.set("vid", vid + 1)
-           .set("name", v.name)
-           .set("datum", v.datum)
-           .set("ort", v.ort)
-           .set("logo", v.logo)
+           .set("name", v._name)
+           .set("datum", v._datum)
+           .set("ort", v._ort)
+           .set("logo", v._logo)
            .execute();
     }
     else
@@ -93,11 +93,11 @@ void VeranstaltungManager::putVeranstaltung(const Veranstaltung& v)
              where van_vid = :vid
             )SQL");
 
-        upd.set("vid", v.vid)
-           .set("name", v.name)
-           .set("datum", v.datum)
-           .set("ort", v.ort)
-           .set("logo", v.logo)
+        upd.set("vid", v._vid)
+           .set("name", v._name)
+           .set("datum", v._datum)
+           .set("ort", v._ort)
+           .set("logo", v._logo)
            .execute();
     }
 

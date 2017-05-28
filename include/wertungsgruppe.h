@@ -6,7 +6,7 @@
 #ifndef WERTUNGSGRUPPE_H
 #define WERTUNGSGRUPPE_H
 
-#include <string>
+#include <cxxtools/string.h>
 #include <vector>
 
 namespace cxxtools
@@ -14,18 +14,25 @@ namespace cxxtools
   class SerializationInfo;
 }
 
-struct Wertungsgruppe
+class Wertungsgruppe
 {
-    unsigned vid;
-    unsigned wid;
-    unsigned gid;
-    std::string name;
-    std::vector<unsigned> rid;
+    friend void operator>>= (const cxxtools::SerializationInfo& si, Wertungsgruppe& g);
+    friend void operator<<= (cxxtools::SerializationInfo& si, const Wertungsgruppe& g);
+    friend class WertungManager;
+
+    unsigned _vid;
+    unsigned _wid;
+    unsigned _gid;
+    cxxtools::String _name;
+    std::vector<unsigned> _rid;
+
+public:
+    unsigned vid() const                         { return _vid; }
+    unsigned wid() const                         { return _wid; }
+    unsigned gid() const                         { return _gid; }
+    const cxxtools::String& name() const         { return _name; }
+    const std::vector<unsigned>& rid() const     { return _rid; }
 };
-
-void operator>>= (const cxxtools::SerializationInfo& si, Wertungsgruppe& g);
-
-void operator<<= (cxxtools::SerializationInfo& si, const Wertungsgruppe& g);
 
 #endif // WERTUNGSGRUPPE_H
 

@@ -27,7 +27,7 @@ define(['jquery', 'veranstaltung'], function($, veranstaltung) {
 
                 my.table.on('select', function (e, dt, type, indexes) {
                     var wettkampf = dt.row(indexes[0]).data();
-                    my.wid = wettkampf.wid;
+                    veranstaltung.selectWettkampf(wettkampf);
                 });
             });
     }

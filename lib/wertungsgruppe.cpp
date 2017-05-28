@@ -1,21 +1,20 @@
 #include <wertungsgruppe.h>
 #include <cxxtools/serializationinfo.h>
-#include <cxxtools/utf8.h>
 
 void operator>>= (const cxxtools::SerializationInfo& si, Wertungsgruppe& g)
 {
-  si.getMember("vid") >>= g.vid;
-  si.getMember("wid") >>= g.wid;
-  si.getMember("gid") >>= g.gid;
-  si.getMember("name") >>= cxxtools::Utf8(g.name);
-  si.getMember("rid") >>= g.rid;
+  si.getMember("vid") >>= g._vid;
+  si.getMember("wid") >>= g._wid;
+  si.getMember("gid") >>= g._gid;
+  si.getMember("name") >>= g._name;
+  si.getMember("rid") >>= g._rid;
 }
 
 void operator<<= (cxxtools::SerializationInfo& si, const Wertungsgruppe& g)
 {
-  si.addMember("vid") <<= g.vid;
-  si.addMember("wid") <<= g.wid;
-  si.addMember("gid") <<= g.gid;
-  si.addMember("name") <<= cxxtools::Utf8(g.name);
-  si.addMember("rid") <<= g.rid;
+  si.addMember("vid") <<= g._vid;
+  si.addMember("wid") <<= g._wid;
+  si.addMember("gid") <<= g._gid;
+  si.addMember("name") <<= g._name;
+  si.addMember("rid") <<= g._rid;
 }

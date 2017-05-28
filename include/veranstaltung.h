@@ -30,25 +30,32 @@ namespace cxxtools
   class SerializationInfo;
 }
 
-struct Veranstaltung
+class VeranstaltungManager;
+
+class Veranstaltung
 {
-    unsigned vid;
-    cxxtools::String name;
-    cxxtools::Date datum;
-    cxxtools::String ort;
-    std::string logo;
+    friend void operator>>= (const cxxtools::SerializationInfo& si, Veranstaltung& v);
+    friend void operator<<= (cxxtools::SerializationInfo& si, const Veranstaltung& v);
+    friend class VeranstaltungManager;
 
-    bool isNew() const
-    { return vid == 0; }
+    unsigned _vid;
+    cxxtools::String _name;
+    cxxtools::Date _datum;
+    cxxtools::String _ort;
+    std::string _logo;
 
+public:
     Veranstaltung()
-        : vid(0),
-          datum(cxxtools::Clock::getLocalTime().date())
+        : _vid(0),
+          _datum(cxxtools::Clock::getLocalTime().date())
         { }
+
+    unsigned vid() const                         { return _vid; }
+    const cxxtools::String& name() const         { return _name; }
+    cxxtools::Date datum() const                 { return _datum; }
+    const cxxtools::String& ort() const          { return _ort; }
+    const std::string& logo() const              { return _logo; }
+    bool isNew() const                           { return _vid == 0; }
 };
-
-void operator>>= (const cxxtools::SerializationInfo& si, Veranstaltung& v);
-
-void operator<<= (cxxtools::SerializationInfo& si, const Veranstaltung& v);
 
 #endif // VERANSTALTUNG_H

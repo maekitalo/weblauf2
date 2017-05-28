@@ -7,9 +7,6 @@ bin_PROGRAMS = weblauf2
 lib_LTLIBRARIES = libweblauf.la
 
 libweblauf_la_SOURCES = \
-	json/veranstaltungen.cpp \
-	json/wettkaempfe.cpp \
-	json/wertungen.cpp \
 	lib/managercontext.cpp \
 	lib/person.cpp \
 	lib/teilnehmermanager.cpp \
@@ -41,6 +38,10 @@ jqueryUiSources = \
 	resources/jquery-ui-1.12.1.custom/jquery-ui.css
 
 ecppSources = \
+	json/veranstaltung.ecpp \
+	json/veranstaltungen.ecpp \
+	json/wettkaempfe.ecpp \
+	json/wertungen.ecpp \
 	webmain.ecpp
 
 staticSources = \

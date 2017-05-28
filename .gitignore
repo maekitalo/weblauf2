@@ -43,3 +43,4 @@ stamp-h1
 weblauf2
 resources.cpp
 webmain.cpp
+json/*.cpp

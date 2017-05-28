@@ -22,22 +22,22 @@
 
 void operator>>= (const cxxtools::SerializationInfo& si, Wettkampf& w)
 {
-  si.getMember("vid") >>= w.vid;
-  si.getMember("wid") >>= w.wid;
-  si.getMember("name") >>= w.name;
-  si.getMember("art") >>= w.art;
-  si.getMember("staVon") >>= w.staVon;
-  si.getMember("staBis") >>= w.staBis;
-  si.getMember("startzeit") >>= w.startzeit;
+  si.getMember("vid") >>= w._vid;
+  si.getMember("wid") >>= w._wid;
+  si.getMember("name") >>= w._name;
+  si.getMember("art") >>= w._art;
+  si.getMember("staVon") >>= w._staVon;
+  si.getMember("staBis") >>= w._staBis;
+  si.getMember("startzeit") >>= w._startzeit;
 }
 
 void operator<<= (cxxtools::SerializationInfo& si, const Wettkampf& w)
 {
-  si.addMember("vid") <<= w.vid;
-  si.addMember("wid") <<= w.wid;
-  si.addMember("name") <<= w.name;
-  si.addMember("art") <<= w.art;
-  si.addMember("staVon") <<= w.staVon;
-  si.addMember("staBis") <<= w.staBis;
-  si.addMember("startzeit") <<= w.startzeit;
+  si.addMember("vid") <<= w._vid;
+  si.addMember("wid") <<= w._wid;
+  si.addMember("name") <<= w._name;
+  si.addMember("art") <<= w._art;
+  si.addMember("staVon") <<= w._staVon;
+  si.addMember("staBis") <<= w._staBis;
+  si.addMember("startzeit") <<= w._startzeit;
 }

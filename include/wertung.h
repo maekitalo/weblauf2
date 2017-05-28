@@ -9,29 +9,38 @@ namespace cxxtools
   class SerializationInfo;
 }
 
-struct Wertung
+class WertungManager;
+
+class Wertung
 {
-    static const unsigned nullrid = static_cast<unsigned>(-1);
+    friend void operator>>= (const cxxtools::SerializationInfo& si, Wertung& v);
+    friend void operator<<= (cxxtools::SerializationInfo& si, const Wertung& v);
+    friend class WertungManager;
 
-    unsigned vid;
-    unsigned wid;
-    unsigned rid;
-    cxxtools::String name;
-    unsigned abhaengig;
-    std::string urkunde;
-    unsigned preis; // in cents
+    unsigned _vid;
+    unsigned _wid;
+    unsigned _rid;
+    cxxtools::String _name;
+    unsigned _abhaengig;
+    std::string _urkunde;
+    unsigned _preis; // in cents
 
+public:
     Wertung()
-      : vid(0),
-        wid(0),
-        rid(0),
-        abhaengig(0)
+      : _vid(0),
+        _wid(0),
+        _rid(0),
+        _abhaengig(0),
+        _preis(0)
     { }
 
+    unsigned vid() const                         { return _vid; }
+    unsigned wid() const                         { return _wid; }
+    unsigned rid() const                         { return _rid; }
+    const cxxtools::String& name() const         { return _name; }
+    unsigned abhaengig() const                   { return _abhaengig; }
+    const std::string& urkunde() const           { return _urkunde; }
+    unsigned preis() const                       { return _preis; }
 };
-
-void operator>>= (const cxxtools::SerializationInfo& si, Wertung& v);
-
-void operator<<= (cxxtools::SerializationInfo& si, const Wertung& v);
 
 #endif // WERTUNG_H

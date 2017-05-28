@@ -9,27 +9,39 @@ namespace cxxtools
   class SerializationInfo;
 }
 
-struct Wettkampf
+class WettkampfManager;
+class Wettkampf
 {
-    unsigned vid;
-    unsigned wid;
-    cxxtools::String name;
-    char art;
-    unsigned staVon;
-    unsigned staBis;
-    cxxtools::Time startzeit;
+    friend void operator>>= (const cxxtools::SerializationInfo& si, Wettkampf& w);
+
+    friend void operator<<= (cxxtools::SerializationInfo& si, const Wettkampf& w);
+    friend class WettkampfManager;
+
+    unsigned _vid;
+    unsigned _wid;
+    cxxtools::String _name;
+    char _art;
+    unsigned _staVon;
+    unsigned _staBis;
+    cxxtools::Time _startzeit;
+
+public:
 
     Wettkampf()
-        : vid(0),
-          wid(0),
-          art(' '),
-          staVon(0),
-          staBis(0)
+        : _vid(0),
+          _wid(0),
+          _art(' '),
+          _staVon(0),
+          _staBis(0)
         { }
+
+    unsigned vid() const                         { return _vid; }
+    unsigned wid() const                         { return _wid; }
+    const cxxtools::String& name() const         { return _name; }
+    char art() const                             { return _art; }
+    unsigned staVon() const                      { return _staVon; }
+    unsigned staBis() const                      { return _staBis; }
+    cxxtools::Time startzeit() const             { return _startzeit; }
 };
-
-void operator>>= (const cxxtools::SerializationInfo& si, Wettkampf& w);
-
-void operator<<= (cxxtools::SerializationInfo& si, const Wettkampf& w);
 
 #endif // WETTKAMPF_H
