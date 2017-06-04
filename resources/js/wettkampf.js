@@ -25,8 +25,8 @@ define(['jquery', 'veranstaltung'], function($, veranstaltung) {
                     order: [ [5, 'asc'], [0, 'asc'] ]
                 });
 
-                my.table.on('select', function (e, dt, type, indexes) {
-                    var wettkampf = dt.row(indexes[0]).data();
+                my.table.on('click', 'tr', function () {
+                    var wettkampf = my.table.row(this).data();
                     veranstaltung.selectWettkampf(wettkampf);
                 });
             });

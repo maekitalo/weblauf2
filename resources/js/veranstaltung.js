@@ -1,4 +1,4 @@
-define(['jquery', 'datatables.net', 'datatables.select'], function($) {
+define(['jquery', 'utils', 'datatables.net'], function($, utils) {
     var my = {}
 
     my.onLoad = function() {
@@ -9,7 +9,6 @@ define(['jquery', 'datatables.net', 'datatables.select'], function($) {
                         url: 'veranstaltungen.json',
                         dataSrc: ''
                     },
-                    select: true,
                     columns: [
                         { data: 'vid' },
                         { data: 'datum' },
@@ -20,8 +19,8 @@ define(['jquery', 'datatables.net', 'datatables.select'], function($) {
                     order: [ [1, 'desc'], [0, 'desc'] ]
                 });
 
-                my.table.on('select', function (e, dt, type, indexes) {
-                    var veranstaltung = dt.row(indexes[0]).data();
+                my.table.on('click', 'tr', function () {
+                    var veranstaltung = my.table.row(this).data();
                     if (my.vid !== veranstaltung.vid)
                     {
                         my.veranstaltung = veranstaltung;
@@ -31,6 +30,7 @@ define(['jquery', 'datatables.net', 'datatables.select'], function($) {
                         my.wettkampf = null;
                         my.wertung = null;
                         document.title = veranstaltung.name;
+                        utils.information('Veranstaltung <i>' + veranstaltung.name + '</i> ausgewählt');
                     }
                 });
             });
@@ -46,6 +46,7 @@ define(['jquery', 'datatables.net', 'datatables.select'], function($) {
             my.wid = wettkampf.wid;
             my.wertung = null;
             my.rid = null;
+            utils.information('Wettkampf <i>' + wettkampf.name + '</i> ausgewählt');
             if (cb)
                 cb();
         }
@@ -59,6 +60,7 @@ define(['jquery', 'datatables.net', 'datatables.select'], function($) {
         else if (my.rid !== wertung.rid) {
             my.wertung = wertung;
             my.rid = wertung.rid;
+            utils.information('Wertung <i>' + wertung.name + '</i> ausgewählt');
             if (cb)
                 cb();
         }

@@ -42,8 +42,8 @@ define(['jquery', 'veranstaltung', 'wettkampf'], function($, veranstaltung, wett
                     order: [0, 'asc']
                 });
 
-                my.table.on('select', function (e, dt, type, indexes) {
-                    var wertung = dt.row(indexes[0]).data();
+                my.table.on('click', 'tr', function () {
+                    var wertung = my.table.row(this).data();
                     veranstaltung.selectWertung(wertung);
                 });
             });

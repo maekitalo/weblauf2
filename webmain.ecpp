@@ -7,15 +7,17 @@
         <link rel="stylesheet" href="weblauf2.css" type="text/css">
         <link rel="stylesheet" href="dropdown.css" type="text/css">
         <link rel="stylesheet" href="DataTables-1.10.15/media/css/jquery.dataTables.css" type="text/css">
-        <link rel="stylesheet" href="Select-1.2.2/css/select.dataTables.css" type="text/css">
-        <link rel="stylesheet" href="Select-1.2.2/css/select.dataTables.css" type="text/css">
-        <link rel="stylesheet" href="FixedColumns-3.2.2/css/fixedColumns.dataTables.css" type="text/css">
+        <link rel="stylesheet" href="DataTables-1.10.15/media/css/dataTables.foundation.css" type="text/css">
+        <link rel="stylesheet" href="DataTables-1.10.15/extensions/Select/css/select.dataTables.css" type="text/css">
+        <link rel="stylesheet" href="DataTables-1.10.15/extensions/Select/css/select.foundation.css" type="text/css">
+        <link rel="stylesheet" href="DataTables-1.10.15/extensions/FixedColumns/css/fixedColumns.dataTables.css" type="text/css">
+        <link rel="stylesheet" href="DataTables-1.10.15/extensions/FixedColumns/css/fixedColumns.foundation.css" type="text/css">
         <link rel="stylesheet" href="jquery-ui-1.12.1.custom/jquery-ui.css" type="text/css">
         <script src="js/require.js" data-main="js/main.js"></script>
     </head>
     <body>
-        <div class="nav">
-            <ul id="nav">
+        <div id="nav">
+            <ul>
                 <li><a href="#">Veranstaltung</a>
                     <ul>
                         <li><a href="veranstaltung">Veranstaltung</a></li>
