@@ -40,6 +40,11 @@ jqueryUiSources = \
 	resources/jquery-ui-1.12.1.custom/jquery-ui.structure.min.css \
 	resources/jquery-ui-1.12.1.custom/jquery-ui.css
 
+notySources = \
+	resources/noty-3.1.0/lib/noty.min.js \
+	resources/noty-3.1.0/lib/noty.js \
+	resources/noty-3.1.0/lib/noty.css
+
 ecppSources = \
 	json/veranstaltung.ecpp \
 	json/veranstaltungen.ecpp \
@@ -65,7 +70,8 @@ staticSources = \
 	resources/html/veranstaltung.html \
 	resources/html/wettkampf.html \
 	resources/html/wertung.html \
-	$(jqueryUiSources)
+	$(jqueryUiSources) \
+	$(notySources)
 
 weblauf2_SOURCES = \
 	main.cpp \

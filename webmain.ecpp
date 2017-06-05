@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="DataTables-1.10.15/extensions/FixedColumns/css/fixedColumns.dataTables.css" type="text/css">
         <link rel="stylesheet" href="DataTables-1.10.15/extensions/FixedColumns/css/fixedColumns.foundation.css" type="text/css">
         <link rel="stylesheet" href="jquery-ui-1.12.1.custom/jquery-ui.css" type="text/css">
+        <link rel="stylesheet" href="noty-3.1.0/lib/noty.css" type="text/css">
         <script src="js/require.js" data-main="js/main.js"></script>
     </head>
     <body>

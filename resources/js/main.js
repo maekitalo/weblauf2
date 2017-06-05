@@ -7,7 +7,7 @@ requirejs.config({
         'datatables.select': '../DataTables-1.10.15/extensions/Select/js/dataTables.select',
         'datatables.fixedcolumns': '../DataTables-1.10.15/extensions/FixedColumns/js/dataTables.fixedColumns',
         'jqueryUi': '../jquery-ui-1.12.1.custom/jquery-ui',
-        'noty': 'noty/packaged/jquery.noty.packaged'
+        'Noty': '../noty-3.1.0/lib/noty'
     }
 })
 

@@ -43,6 +43,9 @@ int main(int argc, char* argv[])
     app.mapUrl("^/$", "webmain");
 
     // map /comp to comp
+    app.mapUrl("^/([^.].+)$", "$1");
+
+    // map /comp.ext to ext/comp
     app.mapUrl("^/(.+)\\.(.+)$", "$2/$1");
 
     app.run();

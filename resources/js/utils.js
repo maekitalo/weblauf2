@@ -1,70 +1,54 @@
-define(['noty'], function() {
+define(['Noty', 'jquery'], function(Noty) {
     var my = {}
 
     my.error = function(msg, timeout)
     {
-        if (timeout < 0)
-            timeout = null;
-
-        return noty({
-            text: msg,
+        new Noty(
+        {
             type: 'error',
-            timeout: timeout
-        });
+            text: msg,
+            timeout: timeout < 0 ? null : timeout
+        }).show();
     }
 
     my.warning = function(msg, timeout)
     {
-        if (timeout < 0)
-            timeout = null;
-
-        return noty({
-            text: msg,
+        new Noty(
+        {
             type: 'warning',
-            timeout: timeout
-        });
+            text: msg,
+            timeout: timeout < 0 ? null : timeout
+        }).show();
     }
 
     my.information = function(msg, timeout)
     {
-        if (!timeout)
-            timeout = 5000;
-        else if (timeout < 0)
-            timeout = null;
-
-        return noty({
+        new Noty(
+        {
+            type: 'info',
             text: msg,
-            type: 'information',
-            timeout: timeout
-        });
+            timeout: timeout == null ? 5000 : timeout
+        }).show();
     }
 
     my.notification = function(msg, timeout)
     {
-        if (!timeout)
-            timeout = 5000;
-        else if (timeout < 0)
-            timeout = null;
-
-        return noty({
-            text: msg,
+        new Noty(
+        {
             type: 'notification',
-            timeout: timeout
-        });
+            text: msg,
+            timeout: timeout == null ? 5000 : timeout
+        }).show();
     }
 
     my.success = function(msg, timeout)
     {
-        if (!timeout)
-            timeout = 5000;
-        else if (timeout < 0)
-            timeout = null;
-
-        return noty({
-            text: msg,
+        new Noty(
+        {
             type: 'success',
-            timeout: timeout
-        });
+            text: msg,
+            timeout: timeout == null ? 5000 : timeout
+        }).show();
     }
 
     my.processNotification = function(n)

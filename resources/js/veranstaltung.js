@@ -48,7 +48,7 @@ define(['jquery', 'utils', 'datatables.net'], function($, utils) {
             my.rid = null;
             utils.information('Wettkampf <i>' + wettkampf.name + '</i> ausgewählt');
             if (cb)
-                cb();
+                cb(wettkampf);
         }
     }
 
@@ -62,7 +62,7 @@ define(['jquery', 'utils', 'datatables.net'], function($, utils) {
             my.rid = wertung.rid;
             utils.information('Wertung <i>' + wertung.name + '</i> ausgewählt');
             if (cb)
-                cb();
+                cb(wertung);
         }
     }
 
