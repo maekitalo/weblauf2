@@ -46,6 +46,8 @@ notySources = \
 	resources/noty-3.1.0/lib/noty.css
 
 ecppSources = \
+	action/saveveranstaltung.ecpp \
+	actionmain.ecpp \
 	json/veranstaltung.ecpp \
 	json/veranstaltungen.ecpp \
 	json/wettkampf.ecpp \
@@ -68,14 +70,16 @@ staticSources = \
 	resources/js/wertung.js \
 	resources/html/teilnehmer.html \
 	resources/html/veranstaltung.html \
+	resources/html/veranstaltung/edit.html \
 	resources/html/wettkampf.html \
 	resources/html/wertung.html \
 	$(jqueryUiSources) \
 	$(notySources)
 
 weblauf2_SOURCES = \
-	main.cpp \
+	action.cpp \
 	configuration.cpp \
+	main.cpp \
 	$(ecppSources)
 
 nodist_weblauf2_SOURCES = \
@@ -85,7 +89,9 @@ weblauf2_LDFLAGS = -lcxxtools -ltntnet
 weblauf2_LDADD = $(top_builddir)/libweblauf.la
 
 include_HEADERS = \
-	configuration.h
+	actionreply.h \
+	configuration.h \
+	noty.h \
 	include/person.h \
 	include/table/Query.h \
 	include/table/Response.h \

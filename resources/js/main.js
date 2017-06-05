@@ -3,11 +3,19 @@ requirejs.config({
     paths: {
         'jquery': 'jquery-3.2.1',
         'datatables.net': '../DataTables-1.10.15/media/js/jquery.dataTables',
-        'datatables.select': '../Select-1.2.2/js/dataTables.select',
         'datatables.select': '../DataTables-1.10.15/extensions/Select/js/dataTables.select',
         'datatables.fixedcolumns': '../DataTables-1.10.15/extensions/FixedColumns/js/dataTables.fixedColumns',
-        'jqueryUi': '../jquery-ui-1.12.1.custom/jquery-ui',
+        'jquery-ui': '../jquery-ui-1.12.1.custom/jquery-ui',
         'Noty': '../noty-3.1.0/lib/noty'
+    },
+
+    shim: {
+        'jquery': {
+            exports: '$'
+        },
+        'jquery-ui': {
+            deps: ['jquery']
+        }
     }
 })
 

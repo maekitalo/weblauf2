@@ -42,6 +42,9 @@ int main(int argc, char* argv[])
     // map / to weblauf2
     app.mapUrl("^/$", "webmain");
 
+    app.mapUrl("^/(.*)\\.action$", "actionmain")
+       .setArg("next", "$1");
+
     // map /comp to comp
     app.mapUrl("^/([^.].+)$", "$1");
 

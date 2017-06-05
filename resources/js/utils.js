@@ -99,5 +99,24 @@ define(['Noty', 'jquery'], function(Noty) {
             }, 'json');
     }
 
+    my.action = function(url, data, successFn, failureFn) {
+        $.post(url + ".action", data,
+            function(data, textStatus, jqXHR)
+            {
+                if (data.success)
+                {
+                    if (successFn)
+                        successFn(data, textStatus, jqXHR);
+                }
+                {
+                    if (failureFn)
+                        failureFn(data, textStatus, jqXHR);
+                }
+
+                my.processNotifications(data.notifications);
+
+            }, 'json');
+    }
+
     return my;
 })

@@ -1,4 +1,4 @@
-define(['jquery', 'utils', 'datatables.net'], function($, utils) {
+define(['jquery', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', 'populate'], function($, utils) {
     var my = {}
 
     my.onLoad = function() {
@@ -16,6 +16,7 @@ define(['jquery', 'utils', 'datatables.net'], function($, utils) {
                         { data: 'ort' },
                         { data: 'logo' }
                     ],
+                    select: 'single',
                     order: [ [1, 'desc'], [0, 'desc'] ]
                 });
 
@@ -32,6 +33,37 @@ define(['jquery', 'utils', 'datatables.net'], function($, utils) {
                         document.title = veranstaltung.name;
                         utils.information('Veranstaltung <i>' + veranstaltung.name + '</i> ausgewählt');
                     }
+                });
+
+                $('#bearbeiten').click(function() {
+                    var data = my.table.rows({selected:true}).data();
+                    var veranstaltung = data.length > 0 ? data[0] : my.veranstaltung;
+                    if (!veranstaltung)
+                    {
+                        utils.error('keine Veranstaltung ausgewählt', 5000);
+                        return;
+                    }
+
+                    $('<div/>').load('html/veranstaltung/edit.html', function() {
+                        $(this).populate(veranstaltung)
+                               .dialog({
+                                    buttons: [
+                                        {
+                                            text: 'Ok',
+                                            click: function() {
+                                                utils.action('saveveranstaltung', $('form', $(this)).serialize());
+                                                $(this).remove();
+                                            }
+                                        },
+                                        {
+                                            text: 'cancel',
+                                            click: function() {
+                                                $(this).remove();
+                                            }
+                                        }
+                                    ]
+                                })
+                    });
                 });
             });
     }

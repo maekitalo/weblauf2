@@ -1,0 +1,21 @@
+<%pre>
+#include <veranstaltung.h>
+#include <cxxtools/json.h>
+</%pre>
+<%include>action.ecpp</%include>
+<%cpp>
+
+cxxtools::SerializationInfo si;
+si <<= request.getQueryParams();
+
+Veranstaltung veranstaltung;
+si >>= veranstaltung;
+
+log_info("veranstaltung " << cxxtools::Json(veranstaltung).beautify(true));
+
+std::ostringstream msg;
+msg << "Veranstaltung " << veranstaltung.vid() << " gespeichert";
+actionReply.information(msg.str());
+actionReply.warning("speichern noch nicht implementiert");
+
+</%cpp>
