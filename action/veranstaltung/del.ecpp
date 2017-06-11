@@ -1,0 +1,22 @@
+<%pre>
+
+#include <veranstaltungmanager.h>
+#include <veranstaltung.h>
+#include <managercontext.h>
+
+</%pre>
+<%args>
+unsigned vid;
+</%args>
+<%include>action.ecpp</%include>
+<%cpp>
+
+ManagerContext ctx;
+VeranstaltungManager veranstaltungManager(ctx);
+veranstaltungManager.delVeranstaltung(vid);
+
+std::ostringstream msg;
+msg << "Veranstaltung " << vid << " gelöscht";
+actionReply.information(msg.str());
+
+</%cpp>

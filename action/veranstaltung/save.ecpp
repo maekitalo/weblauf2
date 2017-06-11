@@ -1,6 +1,10 @@
 <%pre>
+
+#include <veranstaltungmanager.h>
 #include <veranstaltung.h>
+#include <managercontext.h>
 #include <cxxtools/json.h>
+
 </%pre>
 <%include>action.ecpp</%include>
 <%cpp>
@@ -13,9 +17,12 @@ si >>= veranstaltung;
 
 log_info("veranstaltung " << cxxtools::Json(veranstaltung).beautify(true));
 
+ManagerContext ctx;
+VeranstaltungManager veranstaltungManager(ctx);
+veranstaltungManager.putVeranstaltung(veranstaltung);
+
 std::ostringstream msg;
 msg << "Veranstaltung " << veranstaltung.vid() << " gespeichert";
 actionReply.information(msg.str());
-actionReply.warning("speichern noch nicht implementiert");
 
 </%cpp>

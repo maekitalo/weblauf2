@@ -46,7 +46,8 @@ notySources = \
 	resources/noty-3.1.0/lib/noty.css
 
 ecppSources = \
-	action/saveveranstaltung.ecpp \
+	action/veranstaltung/del.ecpp \
+	action/veranstaltung/save.ecpp \
 	actionmain.ecpp \
 	json/veranstaltung.ecpp \
 	json/veranstaltungen.ecpp \

@@ -45,3 +45,4 @@ resources.cpp
 webmain.cpp
 json/*.cpp
 action/*.cpp
+action/*/*.cpp

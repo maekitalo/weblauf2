@@ -29,4 +29,3 @@ class VeranstaltungManager
 };
 
 #endif // VERANSTALTUNGMANAGER_H
-
