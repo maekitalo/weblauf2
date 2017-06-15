@@ -1,8 +1,6 @@
 define(['jquery', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', 'populate'], function($, utils) {
     var my = {}
 
-    var dialog = $('<div/>');
-
     my.onLoad = function() {
         $('#content').load('html/veranstaltung.html', {},
             function() {
@@ -29,22 +27,24 @@ define(['jquery', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', '
                     });
                 });
 
+                var dialog = $('<div/>');
+
                 var editdialogButtons = [
-                                        {
-                                            text: 'Ok',
-                                            click: function() {
-                                                utils.action('veranstaltung/save', $('form', $(this)).serialize());
-                                                $(this).close();
-                                                my.table.ajax.reload();
-                                            }
-                                        },
-                                        {
-                                            text: 'cancel',
-                                            click: function() {
-                                                $(this).close();
-                                            }
-                                        }
-                                    ]
+                    {
+                        text: 'Ok',
+                        click: function() {
+                            utils.action('veranstaltung/save', $('form', $(this)).serialize());
+                            $(this).dialog("close");
+                            my.table.ajax.reload();
+                        }
+                    },
+                    {
+                        text: 'cancel',
+                        click: function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                ];
 
                 $('#bearbeiten').click(function() {
                     var data = my.table.rows({selected:true}).data();
@@ -59,6 +59,7 @@ define(['jquery', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', '
                         $(':input[name="datum"]', $(this)).datepicker({ dateFormat: 'yy-mm-dd'});
                         $(this).populate(veranstaltung)
                                .dialog({
+                                    appendTo: ('#content'),
                                     buttons: editdialogButtons
                                 })
                     });
@@ -69,6 +70,7 @@ define(['jquery', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', '
                         $(':input[name="vid"]', $(this)).val("0");
                         $(':input[name="datum"]', $(this)).datepicker({ dateFormat: 'yy-mm-dd'});
                         $(this).dialog({
+                                    appendTo: ('#content'),
                                     buttons: editdialogButtons
                                 })
                     })
@@ -85,18 +87,21 @@ define(['jquery', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', '
 
                     dialog.html("Veranstaltung <b>" + veranstaltung.name + "</b> wirklich löschen?").dialog({
                         modal: true,
+                        appendTo: ('#content'),
                         buttons: {
                             "ja": function() {
                                 utils.action('veranstaltung/del', veranstaltung);
-                                $(this).close()
+                                $(this).dialog("close")
                                 my.table.ajax.reload();
                                 my.wettkampf = null;
                                 my.wid = null;
                                 my.wertung = null;
                                 my.rid = null;
+                                my.verantaltung = null;
+                                my.vid = null;
                                 document.title = "";
                             },
-                            "nein": function() { $(this).close() }
+                            "nein": function() { $(this).dialog("close") }
                         }
                     });
                 });

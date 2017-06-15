@@ -19,7 +19,7 @@
     <body>
         <div id="nav">
             <ul>
-                <li><a href="#">Veranstaltung</a>
+                <li><a href="veranstaltung">Veranstaltung</a>
                     <ul>
                         <li><a href="veranstaltung">Veranstaltung</a></li>
                         <li class='split'></a></li>
@@ -37,7 +37,7 @@
                         <li><a href="listen">Listen</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Meldung</a>
+                <li><a href="teilnehmer">Meldung</a>
                     <ul>
                         <li><a href="teilnehmer">Teilnehmer</a></li>
                         <li><a href="meldung">Meldung</a></li>
@@ -54,7 +54,7 @@
                         <li><a href="bahnverteilung">Bahnverteilung</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Ergebnisse</a>
+                <li><a href="ergebniserfassung">Ergebnisse</a>
                     <ul>
                         <li><a href="ergebniserfassung">Erfassen</a></li>
                         <li><a href='massenerfassungz'>Massenerfassung/Basiszeit</a></li>
@@ -83,7 +83,7 @@
                         <li><a href='statistik'>Statistik</a></li>
                     </ul>
                 </li>
-                <li><a href="#">Verwaltung</a>
+                <li><a href="verein">Verwaltung</a>
                     <ul>
                         <li><a href='verein'>Verein</a></li>
                         <li><a href='altersklassen'>Altersklassen</a></li>

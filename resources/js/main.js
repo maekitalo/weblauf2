@@ -19,13 +19,18 @@ requirejs.config({
     }
 })
 
-requirejs(['jquery'], function($) {
+requirejs(['jquery', 'utils'], function($, utils) {
 
     $('#nav a').click(function(ev) {
         ev.preventDefault();
-        requirejs([$(this).attr('href')], function(screen) {
-            screen.onLoad();
-        })
+        requirejs(
+            [$(this).attr('href')],
+            function(screen) {
+                screen.onLoad();
+            },
+            function(err) {
+                utils.error(err.toString());
+            })
     })
 
     $("#nav li:has(ul)").hover(function(){
@@ -33,4 +38,16 @@ requirejs(['jquery'], function($) {
     }, function(){
         $(this).find("ul").hide();
     });
+
+    $(document).ajaxError(function(event, xhr, settings, thrownError) {
+        console.log("ajaxError", event, xhr, settings, thrownError);
+        if (xhr.readyState == 4)
+            utils.error(thrownError ? thrownError : xhr.statusText);
+    });
+
+    require.onError = function(err) {
+        console.log(err);
+        utils.error(err.message);
+        throw err;
+    }
 });

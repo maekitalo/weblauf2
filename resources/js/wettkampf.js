@@ -30,6 +30,25 @@ define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select
                     veranstaltung.selectWettkampf(wettkampf);
                 });
 
+                var dialog = $('<div/>');
+
+                var editdialogButtons = [
+                    {
+                        text: 'Ok',
+                        click: function() {
+                            utils.action('wettkampf/save', $('form', $(this)).serialize());
+                            $(this).dialog("close");
+                            my.table.ajax.reload();
+                        }
+                    },
+                    {
+                        text: 'cancel',
+                        click: function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                ];
+
                 $('#bearbeiten').click(function() {
                     var data = my.table.rows({selected:true}).data();
                     var wettkampf = data.length > 0 ? data[0] : my.wettkampf;
@@ -40,28 +59,51 @@ define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select
                         return;
                     }
 
-                    $('<div/>').load('html/wettkampf/edit.html', function() {
+                    dialog.load('html/wettkampf/edit.html', function() {
                         $(this).populate(wettkampf)
                                .dialog({
-                                    buttons: [
-                                        {
-                                            text: 'Ok',
-                                            click: function() {
-                                                utils.action('savewettkampf', $('form', $(this)).serialize());
-                                                $(this).remove();
-                                                my.table.ajax.reload();
-                                            }
-                                        },
-                                        {
-                                            text: 'cancel',
-                                            click: function() {
-                                                $(this).remove();
-                                            }
-                                        }
-                                    ]
+                                    appendTo: ('#content'),
+                                    buttons: editdialogButtons
                                })
                     })
                 });
+
+                $('#neu').click(function() {
+                    dialog.load('html/wettkampf/edit.html', function() {
+                        $(':input[name="vid"]', $(this)).val(veranstaltung.vid);
+                        $(':input[name="wid"]', $(this)).val("0");
+                        $(this).dialog({
+                            appendTo: ('#content'),
+                            buttons: editdialogButtons
+                        })
+                    })
+                });
+
+                $('#loeschen').click(function() {
+                    var data = my.table.rows({selected:true}).data();
+                    var wettkampf = data.length > 0 ? data[0] : my.wettkampf;
+                    if (!wettkampf)
+                    {
+                        utils.error('keine Wettkampf ausgewählt', 5000);
+                        return;
+                    }
+
+                    var d = dialog.html("Wettkampf <b>" + wettkampf.name + "</b> wirklich löschen?").dialog({
+                        appendTo: ('#content'),
+                        modal: true,
+                        buttons: {
+                            "ja": function() {
+                                utils.action('wettkampf/del', wettkampf);
+                                $(this).dialog("close")
+                                my.table.ajax.reload();
+                                my.wertung = null;
+                                my.rid = null;
+                                document.title = "";
+                            },
+                            "nein": function() { $(this).dialog("close") }
+                        }
+                    });
+                })
             });
     }
 

@@ -1,0 +1,28 @@
+<%pre>
+
+#include <wettkampfmanager.h>
+#include <wettkampf.h>
+#include <managercontext.h>
+#include <cxxtools/json.h>
+
+</%pre>
+<%include>action.ecpp</%include>
+<%cpp>
+
+cxxtools::SerializationInfo si;
+si <<= request.getQueryParams();
+
+Wettkampf wettkampf;
+si >>= wettkampf;
+
+log_info("wettkampf " << cxxtools::Json(wettkampf).beautify(true));
+
+ManagerContext ctx;
+WettkampfManager wettkampfManager(ctx);
+wettkampfManager.putWettkampf(wettkampf);
+
+std::ostringstream msg;
+msg << "Wettkampf " << wettkampf.vid() << '/' << wettkampf.wid() << " gespeichert";
+actionReply.information(msg.str());
+
+</%cpp>

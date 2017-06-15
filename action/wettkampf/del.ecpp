@@ -1,0 +1,23 @@
+<%pre>
+
+#include <wettkampfmanager.h>
+#include <wettkampf.h>
+#include <managercontext.h>
+
+</%pre>
+<%args>
+unsigned vid;
+unsigned wid;
+</%args>
+<%include>action.ecpp</%include>
+<%cpp>
+
+ManagerContext ctx;
+WettkampfManager wettkampfManager(ctx);
+wettkampfManager.delWettkampf(vid, wid);
+
+std::ostringstream msg;
+msg << "Wettkampf " << vid << '/' << wid << " gelöscht";
+actionReply.information(msg.str());
+
+</%cpp>

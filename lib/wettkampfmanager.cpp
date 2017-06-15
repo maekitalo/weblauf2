@@ -71,3 +71,71 @@ std::vector<Wettkampf> WettkampfManager::getWettkaempfe(unsigned vid)
 
     return wettkaempfe;
 }
+
+void WettkampfManager::putWettkampf(const Wettkampf& w)
+{
+    if (w.wid() == 0)
+    {
+        tntdb::Statement selwid = _ctx.impl().conn().prepareCached(R"SQL(
+            select max(wet_wid)
+              from wettkampf
+             where wet_vid = :vid
+        )SQL");
+
+        tntdb::Statement ins = _ctx.impl().conn().prepareCached(R"SQL(
+            insert into wettkampf
+                (wet_vid, wet_wid, wet_name, wet_art, wet_sta_von, wet_sta_bis, wet_startzeit)
+            values
+                (:vid, :wid, :name, :art, :sta_von, :sta_bis, :startzeit)
+        )SQL");
+
+        unsigned wid = 0;
+        selwid.set("vid", w.vid())
+              .selectValue()
+              .get(wid);
+
+        ins.set("vid", w._vid)
+           .set("wid", wid + 1)
+           .set("name", w._name)
+           .set("art", w._art)
+           .set("sta_von", w._staVon)
+           .set("sta_bis", w._staBis)
+           .set("startzeit", w._startzeit)
+           .execute();
+    }
+    else
+    {
+        tntdb::Statement upd = _ctx.impl().conn().prepareCached(R"SQL(
+            update wettkampf
+               set wet_name = :name,
+                   wet_art = :art,
+                   wet_sta_von = :staVon,
+                   wet_sta_bis = :staBis,
+                   wet_startzeit = :startzeit
+             where wet_vid = :vid
+               and wet_wid = :wid
+        )SQL");
+
+        upd.set("vid", w._vid)
+           .set("wid", w._wid)
+           .set("name", w._name)
+           .set("art", w._art)
+           .set("sta_von", w._staVon)
+           .set("sta_bis", w._staBis)
+           .set("startzeit", w._startzeit)
+           .execute();
+    }
+}
+
+void WettkampfManager::delWettkampf(unsigned vid, unsigned wid)
+{
+    tntdb::Statement del = _ctx.impl().conn().prepareCached(R"SQL(
+        delete from wettkampf
+         where wet_vid = :vid
+           and wet_wid = :wid
+    )SQL");
+
+    del.set("vid", vid)
+       .set("wid", wid)
+       .execute();
+}

@@ -48,6 +48,8 @@ notySources = \
 ecppSources = \
 	action/veranstaltung/del.ecpp \
 	action/veranstaltung/save.ecpp \
+	action/wettkampf/del.ecpp \
+	action/wettkampf/save.ecpp \
 	actionmain.ecpp \
 	json/veranstaltung.ecpp \
 	json/veranstaltungen.ecpp \
