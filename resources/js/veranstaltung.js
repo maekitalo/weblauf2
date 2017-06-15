@@ -92,24 +92,28 @@ define(['jquery', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', '
                             "ja": function() {
                                 utils.action('veranstaltung/del', veranstaltung);
                                 $(this).dialog("close")
-                                my.table.ajax.reload();
-                                my.wettkampf = null;
-                                my.wid = null;
-                                my.wertung = null;
-                                my.rid = null;
-                                my.verantaltung = null;
-                                my.vid = null;
                                 document.title = "";
+                                my.selectVeranstaltung();
+                                my.table.ajax.reload();
                             },
                             "nein": function() { $(this).dialog("close") }
                         }
                     });
                 });
+
+                $('#wettkampf').click(function() {
+                    utils.goToScreen('wettkampf');
+                });
             });
     }
 
     my.selectVeranstaltung = function(veranstaltung, cb) {
-        if ($.isNumeric(veranstaltung)) {
+        if (!veranstaltung) {
+            my.veranstaltung = null;
+            my.vid = null;
+            my.selectWettkampf(null, cb);
+        }
+        else if ($.isNumeric(veranstaltung)) {
             $.getJSON('veranstaltung.json', { vid: veranstaltung },
                 function (v) { my.selectVeranstaltung(v, cb); });
         }
@@ -128,15 +132,20 @@ define(['jquery', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', '
     }
 
     my.selectWettkampf = function(wettkampf, cb) {
-        if ($.isNumeric(wettkampf)) {
+        if (!wettkampf)
+        {
+            my.wettkampf = null;
+            my.wid = null;
+            my.selectWertung(null, cb);
+        }
+        else if ($.isNumeric(wettkampf)) {
             $.getJSON('wettkampf.json', { vid: my.vid, wid: wettkampf },
                 function (w) { my.selectWettkampf(w, cb); });
         }
         else if (my.wid !== wettkampf.wid) {
             my.wettkampf = wettkampf;
             my.wid = wettkampf.wid;
-            my.wertung = null;
-            my.rid = null;
+            my.selectWertung(null);
             utils.information('Wettkampf <i>' + wettkampf.name + '</i> ausgewählt');
             if (cb)
                 cb(wettkampf);
@@ -144,7 +153,14 @@ define(['jquery', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', '
     }
 
     my.selectWertung = function(wertung, cb) {
-        if ($.isNumeric(wertung)) {
+        if (!wertung)
+        {
+            my.wertung = null;
+            my.rid = null;
+            if (cb)
+                cb();
+        }
+        else if ($.isNumeric(wertung)) {
             $.getJSON('wertung.json', { vid: my.vid, wid: my.wid, rid: wertung },
                 function(w)  { my.selectWertung(w, cb) });
         }

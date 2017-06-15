@@ -23,14 +23,7 @@ requirejs(['jquery', 'utils'], function($, utils) {
 
     $('#nav a').click(function(ev) {
         ev.preventDefault();
-        requirejs(
-            [$(this).attr('href')],
-            function(screen) {
-                screen.onLoad();
-            },
-            function(err) {
-                utils.error(err.toString());
-            })
+        utils.goToScreen($(this).attr('href'));
     })
 
     $("#nav li:has(ul)").hover(function(){

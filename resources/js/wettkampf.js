@@ -51,7 +51,7 @@ define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select
 
                 $('#bearbeiten').click(function() {
                     var data = my.table.rows({selected:true}).data();
-                    var wettkampf = data.length > 0 ? data[0] : my.wettkampf;
+                    var wettkampf = data.length > 0 ? data[0] : veranstaltung.wettkampf;
 
                     if (!wettkampf)
                     {
@@ -81,7 +81,7 @@ define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select
 
                 $('#loeschen').click(function() {
                     var data = my.table.rows({selected:true}).data();
-                    var wettkampf = data.length > 0 ? data[0] : my.wettkampf;
+                    var wettkampf = data.length > 0 ? data[0] : veranstaltung.wettkampf;
                     if (!wettkampf)
                     {
                         utils.error('keine Wettkampf ausgewählt', 5000);
@@ -96,13 +96,20 @@ define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select
                                 utils.action('wettkampf/del', wettkampf);
                                 $(this).dialog("close")
                                 my.table.ajax.reload();
-                                my.wertung = null;
-                                my.rid = null;
-                                document.title = "";
+                                veranstaltung.selectWettkampf(null);
                             },
                             "nein": function() { $(this).dialog("close") }
                         }
                     });
+                })
+
+                $('#wertung').click(function() {
+                    if (!veranstaltung.wettkampf)
+                    {
+                        utils.error('keine Wettkampf ausgewählt', 5000);
+                        return;
+                    }
+                    utils.goToScreen('wertung');
                 })
             });
     }
