@@ -1,4 +1,4 @@
-define(['jquery', 'veranstaltung', 'wettkampf'], function($, veranstaltung, wettkampf) {
+define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', 'populate'], function($, veranstaltung, utils) {
     var my = {}
 
     my.onLoad = function() {
@@ -45,6 +45,80 @@ define(['jquery', 'veranstaltung', 'wettkampf'], function($, veranstaltung, wett
                 my.table.on('click', 'tr', function () {
                     var wertung = my.table.row(this).data();
                     veranstaltung.selectWertung(wertung);
+                });
+
+                var dialog = $('<div/>');
+
+                var editdialogButtons = [
+                    {
+                        text: 'Ok',
+                        click: function() {
+                            utils.action('wertung/save', $('form', $(this)).serialize());
+                            $(this).dialog("close");
+                            my.table.ajax.reload();
+                        }
+                    },
+                    {
+                        text: 'cancel',
+                        click: function() {
+                            $(this).dialog("close");
+                        }
+                    }
+                ];
+
+                $('#bearbeiten').click(function() {
+                    var data = my.table.rows({selected:true}).data();
+                    var wertung = data.length > 0 ? data[0] : veranstaltung.wertung;
+
+                    if (!wertung)
+                    {
+                        utils.error('keine Wertung ausgewählt', 5000);
+                        return;
+                    }
+
+                    dialog.load('html/wertung/edit.html', function() {
+                        $(this).populate(wertung)
+                               .dialog({
+                                    appendTo: ('#content'),
+                                    buttons: editdialogButtons
+                               })
+                    })
+                });
+;
+                $('#neu').click(function() {
+                    dialog.load('html/wertung/edit.html', function() {
+                        $(':input[name="vid"]', $(this)).val(veranstaltung.vid);
+                        $(':input[name="wid"]', $(this)).val(veranstaltung.wid);
+                        $(':input[name="rid"]', $(this)).val("0");
+                        $(this).dialog({
+                            appendTo: ('#content'),
+                            buttons: editdialogButtons
+                        })
+                    })
+                });
+;
+                $('#loeschen').click(function() {
+                    var data = my.table.rows({selected:true}).data();
+                    var wertung = data.length > 0 ? data[0] : veranstaltung.wertung;
+                    if (!wertung)
+                    {
+                        utils.error('keine Wertung ausgewählt', 5000);
+                        return;
+                    }
+
+                    var d = dialog.html("Wertung <b>" + wertung.name + "</b> wirklich löschen?").dialog({
+                        appendTo: ('#content'),
+                        modal: true,
+                        buttons: {
+                            "ja": function() {
+                                utils.action('wertung/del', wertung);
+                                $(this).dialog("close")
+                                my.table.ajax.reload();
+                                veranstaltung.selectWertung(null);
+                            },
+                            "nein": function() { $(this).dialog("close") }
+                        }
+                    });
                 });
             });
     }

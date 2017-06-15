@@ -50,6 +50,8 @@ ecppSources = \
 	action/veranstaltung/save.ecpp \
 	action/wettkampf/del.ecpp \
 	action/wettkampf/save.ecpp \
+	action/wertung/del.ecpp \
+	action/wertung/save.ecpp \
 	actionmain.ecpp \
 	json/veranstaltung.ecpp \
 	json/veranstaltungen.ecpp \

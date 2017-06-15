@@ -21,6 +21,11 @@ class WertungManager
         Wertung getWertung(unsigned vid, unsigned wid, unsigned rid);
         std::vector<Wertung> getWertungen(unsigned vid, unsigned wid);
 
+        void putWertung(const Wertung& w);
+        void delWertung(unsigned vid, unsigned wid, unsigned rid);
+        void delWertung(const Wertung& w)
+        { delWertung(w.vid(), w.wid(), w.rid()); }
+
         Wertungsgruppe getWertungsgruppe(unsigned vid, unsigned wid, unsigned gid);
         std::vector<Wertungsgruppe> getWertungsgruppen(unsigned vid, unsigned wid);
 

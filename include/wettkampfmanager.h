@@ -23,6 +23,8 @@ class WettkampfManager
         std::vector<Wettkampf> getWettkaempfe(unsigned vid);
         void putWettkampf(const Wettkampf& w);
         void delWettkampf(unsigned vid, unsigned wid);
+        void delWettkampf(const Wettkampf& w)
+        { delWettkampf(w.vid(), w.wid()); }
 
     private:
         ManagerContext& _ctx;

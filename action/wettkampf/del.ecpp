@@ -12,9 +12,15 @@ unsigned wid;
 <%include>action.ecpp</%include>
 <%cpp>
 
+cxxtools::SerializationInfo si;
+si <<= request.getQueryParams();
+
+Wettkampf wettkampf;
+si >>= wettkampf;
+
 ManagerContext ctx;
 WettkampfManager wettkampfManager(ctx);
-wettkampfManager.delWettkampf(vid, wid);
+wettkampfManager.delWettkampf(wettkampf);
 
 std::ostringstream msg;
 msg << "Wettkampf " << vid << '/' << wid << " gelöscht";

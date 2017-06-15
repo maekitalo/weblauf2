@@ -1,0 +1,28 @@
+<%pre>
+
+#include <wertungmanager.h>
+#include <wertung.h>
+#include <managercontext.h>
+#include <cxxtools/json.h>
+
+</%pre>
+<%include>action.ecpp</%include>
+<%cpp>
+
+cxxtools::SerializationInfo si;
+si <<= request.getQueryParams();
+
+Wertung wertung;
+si >>= wertung;
+
+log_info("wertung " << cxxtools::Json(wertung).beautify(true));
+
+ManagerContext ctx;
+WertungManager wertungManager(ctx);
+wertungManager.putWertung(wertung);
+
+std::ostringstream msg;
+msg << "Wertung " << wertung.vid() << '/' << wertung.wid() << '/' << wertung.rid() << " gespeichert";
+actionReply.information(msg.str());
+
+</%cpp>
