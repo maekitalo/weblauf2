@@ -1,0 +1,21 @@
+<%args>
+bool beautify;
+</%args>
+<%pre>
+
+#include "weblaufmanager.h"
+#include "managercontext.h"
+#include <cxxtools/json.h>
+
+</%pre>
+<%cpp>
+
+ManagerContext ctx;
+WeblaufManager weblaufManager(ctx);
+
+auto ak = weblaufManager.getAk();
+
+reply.setContentType("application/json; charset=UTF-8");
+reply.out() << cxxtools::Json(ak).beautify(beautify);
+
+</%cpp>

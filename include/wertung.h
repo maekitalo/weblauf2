@@ -1,8 +1,11 @@
 #ifndef WERTUNG_H
 #define WERTUNG_H
 
-#include <string>
 #include <cxxtools/string.h>
+#include <cxxtools/join.h>
+
+#include <string>
+#include <vector>
 
 namespace cxxtools
 {
@@ -24,6 +27,7 @@ class Wertung
     unsigned _abhaengig;
     std::string _urkunde;
     double _preis;
+    std::vector<std::string> _ak;
 
 public:
     Wertung()
@@ -41,6 +45,8 @@ public:
     unsigned abhaengig() const                   { return _abhaengig; }
     const std::string& urkunde() const           { return _urkunde; }
     double preis() const                         { return _preis; }
+    const std::vector<std::string> ak() const    { return _ak; }
+    std::string akStr() const                    { return cxxtools::join(_ak.begin(), _ak.end(), ", "); }
 };
 
 #endif // WERTUNG_H

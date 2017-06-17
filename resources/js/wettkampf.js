@@ -1,4 +1,4 @@
-define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', 'populate'], function($, veranstaltung, utils) {
+define(['jquery', 'veranstaltung', 'utils', 'jquery-ui', 'datatables.net', 'datatables.select', 'jquery-ui', 'populate'], function($, veranstaltung, utils) {
     var my = {}
 
     my.onLoad = function() {
@@ -62,6 +62,7 @@ define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select
                     dialog.load('html/wettkampf/edit.html', function() {
                         $(this).populate(wettkampf)
                                .dialog({
+                                    width: 500,
                                     appendTo: ('#content'),
                                     buttons: editdialogButtons
                                })
@@ -73,6 +74,7 @@ define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select
                         $(':input[name="vid"]', $(this)).val(veranstaltung.vid);
                         $(':input[name="wid"]', $(this)).val("0");
                         $(this).dialog({
+                            width: 500,
                             appendTo: ('#content'),
                             buttons: editdialogButtons
                         })

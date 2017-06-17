@@ -41,6 +41,7 @@ Wertung WertungManager::getWertung(unsigned vid, unsigned wid, unsigned rid)
       .get(wertung._urkunde)
       .get(wertung._preis);
 
+    wertung._ak = getAk(vid, wid, rid);
     return wertung;
 }
 
@@ -71,12 +72,39 @@ std::vector<Wertung> WertungManager::getWertungen(unsigned vid, unsigned wid)
          .get(w._abhaengig)
          .get(w._urkunde)
          .get(w._preis);
+
+        w._ak = getAk(vid, wid, w._rid);
+
         wertungen.emplace_back(std::move(w));
     }
 
     log_debug(wertungen.size() << " Wertungen");
 
     return wertungen;
+}
+
+std::vector<std::string> WertungManager::getAk(unsigned vid, unsigned wid, unsigned rid)
+{
+    tntdb::Statement selAk = _ctx.impl().conn().prepareCached(R"SQL(
+        select wea_ak
+          from wertungak
+         where wea_vid = :vid
+           and wea_wid = :wid
+           and wea_rid = :rid
+        )SQL");
+
+    selAk.set("vid", vid)
+         .set("wid", wid)
+         .set("rid", rid);
+
+    std::vector<std::string> ak;
+    for (auto r: selAk)
+    {
+        ak.emplace_back();
+        r.get(ak.back());
+    }
+
+    return ak;
 }
 
 Wertungsgruppe WertungManager::getWertungsgruppe(unsigned vid, unsigned wid, unsigned gid)
@@ -211,7 +239,7 @@ void WertungManager::putWertung(const Wertung& w)
 
         upd.set("vid", w._vid)
            .set("wid", w._wid)
-           .set("rid", w._wid)
+           .set("rid", w._rid)
            .set("name", w._name)
            .setIf("abhaengig", w._abhaengig, w._abhaengig)
            .setIf("urkunde", !w._urkunde.empty(), w._urkunde)

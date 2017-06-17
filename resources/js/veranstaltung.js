@@ -59,6 +59,7 @@ define(['jquery', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', '
                         $(':input[name="datum"]', $(this)).datepicker({ dateFormat: 'yy-mm-dd'});
                         $(this).populate(veranstaltung)
                                .dialog({
+                                    width: 500,
                                     appendTo: ('#content'),
                                     buttons: editdialogButtons
                                 })
@@ -70,6 +71,7 @@ define(['jquery', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', '
                         $(':input[name="vid"]', $(this)).val("0");
                         $(':input[name="datum"]', $(this)).datepicker({ dateFormat: 'yy-mm-dd'});
                         $(this).dialog({
+                                    width: 500,
                                     appendTo: ('#content'),
                                     buttons: editdialogButtons
                                 })

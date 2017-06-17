@@ -22,6 +22,7 @@ void operator>>= (const cxxtools::SerializationInfo& si, Wertung& w)
     tryGet(si, "abhaengig", w._abhaengig);
     si.getMember("urkunde") >>= w._urkunde;
     tryGet(si, "preis", w._preis);
+    si.getMember("ak", w._ak);
 }
 
 void operator<<= (cxxtools::SerializationInfo& si, const Wertung& w)
@@ -33,4 +34,6 @@ void operator<<= (cxxtools::SerializationInfo& si, const Wertung& w)
     si.addMember("abhaengig") <<= w._abhaengig;
     si.addMember("urkunde") <<= w._urkunde;
     si.addMember("preis") <<= w._preis;
+    si.addMember("ak") <<= w._ak;
+    si.addMember("akStr") <<= w.akStr();
 }

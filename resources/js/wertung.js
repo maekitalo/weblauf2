@@ -37,7 +37,8 @@ define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select
                                 return row.aw ? row.aw.name : ''; }
                         },
                         { data: 'urkunde' },
-                        { data: 'preis' }
+                        { data: 'preis' },
+                        { data: 'akStr' }
                     ],
                     order: [0, 'asc']
                 });
@@ -77,8 +78,16 @@ define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select
                     }
 
                     dialog.load('html/wertung/edit.html', function() {
-                        $(this).populate(wertung)
+                        var wertungen = my.table.data();
+                        var sel = $('[name=abhaengig]', dialog);
+                        for (var i = 0; i < wertungen.length; ++i) {
+                            var r = wertungen[i];
+                            $('<option>').val(r.rid).text(r.name).appendTo(sel);
+                        }
+
+                        dialog.populate(wertung)
                                .dialog({
+                                    width: 500,
                                     appendTo: ('#content'),
                                     buttons: editdialogButtons
                                })
@@ -90,7 +99,16 @@ define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select
                         $(':input[name="vid"]', $(this)).val(veranstaltung.vid);
                         $(':input[name="wid"]', $(this)).val(veranstaltung.wid);
                         $(':input[name="rid"]', $(this)).val("0");
+
+                        var wertungen = my.table.data();
+                        var sel = $('[name=abhaengig]', dialog);
+                        for (var i = 0; i < wertungen.length; ++i) {
+                            var r = wertungen[i];
+                            $('<option>').val(r.rid).text(r.name).appendTo(sel);
+                        }
+
                         $(this).dialog({
+                            width: 500,
                             appendTo: ('#content'),
                             buttons: editdialogButtons
                         })

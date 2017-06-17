@@ -7,6 +7,7 @@ bin_PROGRAMS = weblauf2
 lib_LTLIBRARIES = libweblauf.la
 
 libweblauf_la_SOURCES = \
+	lib/klasse.cpp \
 	lib/managercontext.cpp \
 	lib/person.cpp \
 	lib/table/Query.cpp \
@@ -15,6 +16,7 @@ libweblauf_la_SOURCES = \
 	lib/teilnehmermanager.cpp \
 	lib/veranstaltung.cpp \
 	lib/veranstaltungmanager.cpp \
+	lib/weblaufmanager.cpp \
 	lib/wettkampfmanager.cpp \
 	lib/wettkampf.cpp \
 	lib/wertung.cpp \
@@ -53,6 +55,7 @@ ecppSources = \
 	action/wertung/del.ecpp \
 	action/wertung/save.ecpp \
 	actionmain.ecpp \
+	json/ak.ecpp \
 	json/veranstaltung.ecpp \
 	json/veranstaltungen.ecpp \
 	json/wettkampf.ecpp \
@@ -96,7 +99,7 @@ weblauf2_LDADD = $(top_builddir)/libweblauf.la
 include_HEADERS = \
 	actionreply.h \
 	configuration.h \
-	noty.h \
+	include/klasse.h \
 	include/person.h \
 	include/table/Query.h \
 	include/table/Response.h \
@@ -104,10 +107,12 @@ include_HEADERS = \
 	include/teilnehmermanager.h \
 	include/veranstaltung.h \
 	include/veranstaltungmanager.h \
+	include/weblaufmanager.h \
 	include/wettkampf.h \
 	include/wettkampfmanager.h \
 	include/wertung.h \
-	include/wertungmanager.h
+	include/wertungmanager.h \
+	noty.h
 
 nobase_dist_noinst_DATA = $(staticSources)
 

@@ -20,6 +20,7 @@ class WertungManager
 
         Wertung getWertung(unsigned vid, unsigned wid, unsigned rid);
         std::vector<Wertung> getWertungen(unsigned vid, unsigned wid);
+        std::vector<std::string> getAk(unsigned vid, unsigned wid, unsigned rid);
 
         void putWertung(const Wertung& w);
         void delWertung(unsigned vid, unsigned wid, unsigned rid);

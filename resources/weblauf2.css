@@ -1,0 +1,23 @@
+.inputform {
+    overflow: hidden:
+    padding-top: 6px;
+    padding: 8px 10px;
+}
+
+.inputs {
+    padding-right: 10px;
+}
+
+.inputcontainer {
+    margin-right: 14px;
+    white-space: nowrap;
+    min-height: 26px;
+    width: auto;
+    position: relative;
+}
+
+.inputcontainer label {
+    padding-top: 4px;
+    float: left;
+    width: 150px;
+}
