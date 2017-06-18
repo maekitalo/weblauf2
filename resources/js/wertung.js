@@ -1,31 +1,28 @@
-define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', 'populate'], function($, veranstaltung, utils) {
+define(['weblauf', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', 'populate'], function(weblauf, utils) {
     var my = {}
 
     my.onLoad = function() {
-        if (!veranstaltung.wid)
+        if (!weblauf.wid) {
+            utils.warning('kein Wettkampf ausgewählt');
             return;
+        }
 
         $('#content').load('html/wertung.html', {},
             function() {
-                $.getJSON('wettkaempfe.json', { vid: veranstaltung.vid }, function(data) {
-                    var sel = $('#wettkampf');
-                    $.each(data, function (wid, wer) {
-                        $('<option>').val(wer.wid).text(wer.name).appendTo(sel);
-                    });
-
-                    sel.val(veranstaltung.wid)
-                       .change(function(ev) {
-                            veranstaltung.selectWettkampf(
-                                $(this).val(), function() {
-                                    my.table.ajax.reload();
-                                });
-                        });
-                });
+                $('#wettkampf').wettkampf(function() {
+                        $(this).val(weblauf.wid)
+                               .change(function(ev) {
+                                    weblauf.selectWettkampf(
+                                        $(this).val(), function() {
+                                            my.table.ajax.reload();
+                                        });
+                               });
+                })
 
                 my.table = $('#wertungenTable').DataTable({
                     ajax: {
                         url: 'wertungen.json',
-                        data: function() { return { vid: veranstaltung.vid, wid: veranstaltung.wid } },
+                        data: function() { return { vid: weblauf.vid, wid: weblauf.wid } },
                         dataSrc: ''
                     },
                     select: true,
@@ -45,7 +42,7 @@ define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select
 
                 my.table.on('click', 'tr', function () {
                     var wertung = my.table.row(this).data();
-                    veranstaltung.selectWertung(wertung);
+                    weblauf.selectWertung(wertung);
                 });
 
                 var dialog = $('<div/>');
@@ -54,9 +51,11 @@ define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select
                     {
                         text: 'Ok',
                         click: function() {
-                            utils.action('wertung/save', $('form', $(this)).serialize());
+                            utils.action('wertung/save', $('form', $(this)).serialize(),
+                                function() {
+                                    my.table.ajax.reload();
+                                });
                             $(this).dialog("close");
-                            my.table.ajax.reload();
                         }
                     },
                     {
@@ -69,7 +68,7 @@ define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select
 
                 $('#bearbeiten').click(function() {
                     var data = my.table.rows({selected:true}).data();
-                    var wertung = data.length > 0 ? data[0] : veranstaltung.wertung;
+                    var wertung = data.length > 0 ? data[0] : weblauf.wertung;
 
                     if (!wertung)
                     {
@@ -79,25 +78,21 @@ define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select
 
                     dialog.load('html/wertung/edit.html', function() {
                         var wertungen = my.table.data();
-                        var sel = $('[name=abhaengig]', dialog);
-                        for (var i = 0; i < wertungen.length; ++i) {
-                            var r = wertungen[i];
-                            $('<option>').val(r.rid).text(r.name).appendTo(sel);
-                        }
-
-                        dialog.populate(wertung)
-                               .dialog({
-                                    width: 500,
-                                    appendTo: ('#content'),
-                                    buttons: editdialogButtons
-                               })
+                        $('[name=abhaengig]', dialog).wertung(function() {
+                            dialog.populate(wertung)
+                                   .dialog({
+                                        width: 700,
+                                        appendTo: ('#content'),
+                                        buttons: editdialogButtons
+                                   })
+                        });
                     })
                 });
 ;
                 $('#neu').click(function() {
                     dialog.load('html/wertung/edit.html', function() {
-                        $(':input[name="vid"]', $(this)).val(veranstaltung.vid);
-                        $(':input[name="wid"]', $(this)).val(veranstaltung.wid);
+                        $(':input[name="vid"]', $(this)).val(weblauf.vid);
+                        $(':input[name="wid"]', $(this)).val(weblauf.wid);
                         $(':input[name="rid"]', $(this)).val("0");
 
                         var wertungen = my.table.data();
@@ -108,7 +103,7 @@ define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select
                         }
 
                         $(this).dialog({
-                            width: 500,
+                            width: 700,
                             appendTo: ('#content'),
                             buttons: editdialogButtons
                         })
@@ -117,7 +112,7 @@ define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select
 ;
                 $('#loeschen').click(function() {
                     var data = my.table.rows({selected:true}).data();
-                    var wertung = data.length > 0 ? data[0] : veranstaltung.wertung;
+                    var wertung = data.length > 0 ? data[0] : weblauf.wertung;
                     if (!wertung)
                     {
                         utils.error('keine Wertung ausgewählt', 5000);
@@ -129,10 +124,11 @@ define(['jquery', 'veranstaltung', 'utils', 'datatables.net', 'datatables.select
                         modal: true,
                         buttons: {
                             "ja": function() {
-                                utils.action('wertung/del', wertung);
+                                utils.action('wertung/del', wertung, function() {
+                                    my.table.ajax.reload();
+                                    weblauf.selectWertung(null);
+                                });
                                 $(this).dialog("close")
-                                my.table.ajax.reload();
-                                veranstaltung.selectWertung(null);
                             },
                             "nein": function() { $(this).dialog("close") }
                         }

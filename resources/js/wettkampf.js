@@ -1,16 +1,18 @@
-define(['jquery', 'veranstaltung', 'utils', 'jquery-ui', 'datatables.net', 'datatables.select', 'jquery-ui', 'populate'], function($, veranstaltung, utils) {
+define(['weblauf', 'utils', 'jquery-ui', 'datatables.net', 'datatables.select', 'populate'], function(weblauf, utils) {
     var my = {}
 
     my.onLoad = function() {
-        if (!veranstaltung.vid)
+        if (!weblauf.vid) {
+            utils.warning('keine Veranstaltung ausgewählt');
             return;
+        }
 
         $('#content').load('html/wettkampf.html', {},
             function() {
                 my.table = $('#wettkaempfeTable').DataTable({
                     ajax: {
                         url: 'wettkaempfe.json',
-                        data: { vid: veranstaltung.vid },
+                        data: { vid: weblauf.vid },
                         dataSrc: ''
                     },
                     select: true,
@@ -27,7 +29,7 @@ define(['jquery', 'veranstaltung', 'utils', 'jquery-ui', 'datatables.net', 'data
 
                 my.table.on('click', 'tr', function () {
                     var wettkampf = my.table.row(this).data();
-                    veranstaltung.selectWettkampf(wettkampf);
+                    weblauf.selectWettkampf(wettkampf);
                 });
 
                 var dialog = $('<div/>');
@@ -36,9 +38,11 @@ define(['jquery', 'veranstaltung', 'utils', 'jquery-ui', 'datatables.net', 'data
                     {
                         text: 'Ok',
                         click: function() {
-                            utils.action('wettkampf/save', $('form', $(this)).serialize());
+                            utils.action('wettkampf/save', $('form', $(this)).serialize(),
+                                function() {
+                                    my.table.ajax.reload();
+                                });
                             $(this).dialog("close");
-                            my.table.ajax.reload();
                         }
                     },
                     {
@@ -51,7 +55,7 @@ define(['jquery', 'veranstaltung', 'utils', 'jquery-ui', 'datatables.net', 'data
 
                 $('#bearbeiten').click(function() {
                     var data = my.table.rows({selected:true}).data();
-                    var wettkampf = data.length > 0 ? data[0] : veranstaltung.wettkampf;
+                    var wettkampf = data.length > 0 ? data[0] : weblauf.wettkampf;
 
                     if (!wettkampf)
                     {
@@ -71,7 +75,7 @@ define(['jquery', 'veranstaltung', 'utils', 'jquery-ui', 'datatables.net', 'data
 
                 $('#neu').click(function() {
                     dialog.load('html/wettkampf/edit.html', function() {
-                        $(':input[name="vid"]', $(this)).val(veranstaltung.vid);
+                        $(':input[name="vid"]', $(this)).val(weblauf.vid);
                         $(':input[name="wid"]', $(this)).val("0");
                         $(this).dialog({
                             width: 500,
@@ -83,7 +87,7 @@ define(['jquery', 'veranstaltung', 'utils', 'jquery-ui', 'datatables.net', 'data
 
                 $('#loeschen').click(function() {
                     var data = my.table.rows({selected:true}).data();
-                    var wettkampf = data.length > 0 ? data[0] : veranstaltung.wettkampf;
+                    var wettkampf = data.length > 0 ? data[0] : weblauf.wettkampf;
                     if (!wettkampf)
                     {
                         utils.error('keine Wettkampf ausgewählt', 5000);
@@ -95,10 +99,12 @@ define(['jquery', 'veranstaltung', 'utils', 'jquery-ui', 'datatables.net', 'data
                         modal: true,
                         buttons: {
                             "ja": function() {
-                                utils.action('wettkampf/del', wettkampf);
+                                utils.action('wettkampf/del', wettkampf,
+                                    function() {
+                                        my.table.ajax.reload();
+                                        weblauf.selectWettkampf(null);
+                                    });
                                 $(this).dialog("close")
-                                my.table.ajax.reload();
-                                veranstaltung.selectWettkampf(null);
                             },
                             "nein": function() { $(this).dialog("close") }
                         }
@@ -106,12 +112,7 @@ define(['jquery', 'veranstaltung', 'utils', 'jquery-ui', 'datatables.net', 'data
                 })
 
                 $('#wertung').click(function() {
-                    if (!veranstaltung.wettkampf)
-                    {
-                        utils.error('keine Wettkampf ausgewählt', 5000);
-                        return;
-                    }
-                    utils.goToScreen('wertung');
+                    weblauf.goToScreen('wertung');
                 })
             });
     }

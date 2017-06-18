@@ -74,6 +74,7 @@ staticSources = \
 	resources/js/main.js \
 	resources/js/teilnehmer.js \
 	resources/js/veranstaltung.js \
+	resources/js/weblauf.js \
 	resources/js/wettkampf.js \
 	resources/js/wertung.js \
 	resources/html/teilnehmer.html \

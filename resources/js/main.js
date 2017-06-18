@@ -19,11 +19,11 @@ requirejs.config({
     }
 })
 
-requirejs(['jquery', 'utils'], function($, utils) {
+requirejs(['weblauf', 'utils', 'jquery'], function(weblauf, utils) {
 
     $('#nav a').click(function(ev) {
         ev.preventDefault();
-        utils.goToScreen($(this).attr('href'));
+        weblauf.goToScreen($(this).attr('href'));
     })
 
     $("#nav li:has(ul)").hover(function(){

@@ -1,4 +1,4 @@
-define(['jquery', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', 'populate'], function($, utils) {
+define(['weblauf', 'utils', 'jquery', 'datatables.net', 'datatables.select', 'jquery-ui', 'populate'], function(weblauf, utils) {
     var my = {}
 
     my.onLoad = function() {
@@ -22,9 +22,7 @@ define(['jquery', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', '
 
                 my.table.on('click', 'tr', function () {
                     var veranstaltung = my.table.row(this).data();
-                    my.selectVeranstaltung(veranstaltung, function() {
-                        utils.information('Veranstaltung <i>' + veranstaltung.name + '</i> ausgewählt');
-                    });
+                    weblauf.selectVeranstaltung(veranstaltung);
                 });
 
                 var dialog = $('<div/>');
@@ -33,9 +31,11 @@ define(['jquery', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', '
                     {
                         text: 'Ok',
                         click: function() {
-                            utils.action('veranstaltung/save', $('form', $(this)).serialize());
+                            utils.action('veranstaltung/save', $('form', $(this)).serialize(),
+                                function() {
+                                    my.table.ajax.reload();
+                                });
                             $(this).dialog("close");
-                            my.table.ajax.reload();
                         }
                     },
                     {
@@ -92,11 +92,13 @@ define(['jquery', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', '
                         appendTo: ('#content'),
                         buttons: {
                             "ja": function() {
-                                utils.action('veranstaltung/del', veranstaltung);
+                                utils.action('veranstaltung/del', veranstaltung,
+                                    function() {
+                                        my.table.ajax.reload();
+                                    });
                                 $(this).dialog("close")
                                 document.title = "";
                                 my.selectVeranstaltung();
-                                my.table.ajax.reload();
                             },
                             "nein": function() { $(this).dialog("close") }
                         }
@@ -104,75 +106,9 @@ define(['jquery', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', '
                 });
 
                 $('#wettkampf').click(function() {
-                    utils.goToScreen('wettkampf');
+                    weblauf.goToScreen('wettkampf');
                 });
             });
-    }
-
-    my.selectVeranstaltung = function(veranstaltung, cb) {
-        if (!veranstaltung) {
-            my.veranstaltung = null;
-            my.vid = null;
-            my.selectWettkampf(null, cb);
-        }
-        else if ($.isNumeric(veranstaltung)) {
-            $.getJSON('veranstaltung.json', { vid: veranstaltung },
-                function (v) { my.selectVeranstaltung(v, cb); });
-        }
-        else if (my.vid !== veranstaltung.vid)
-        {
-            my.veranstaltung = veranstaltung;
-            my.vid = veranstaltung.vid;
-            my.wid = null;
-            my.rid = null;
-            my.wettkampf = null;
-            my.wertung = null;
-            document.title = veranstaltung.name;
-            if (cb)
-                cb(wettkampf);
-        }
-    }
-
-    my.selectWettkampf = function(wettkampf, cb) {
-        if (!wettkampf)
-        {
-            my.wettkampf = null;
-            my.wid = null;
-            my.selectWertung(null, cb);
-        }
-        else if ($.isNumeric(wettkampf)) {
-            $.getJSON('wettkampf.json', { vid: my.vid, wid: wettkampf },
-                function (w) { my.selectWettkampf(w, cb); });
-        }
-        else if (my.wid !== wettkampf.wid) {
-            my.wettkampf = wettkampf;
-            my.wid = wettkampf.wid;
-            my.selectWertung(null);
-            utils.information('Wettkampf <i>' + wettkampf.name + '</i> ausgewählt');
-            if (cb)
-                cb(wettkampf);
-        }
-    }
-
-    my.selectWertung = function(wertung, cb) {
-        if (!wertung)
-        {
-            my.wertung = null;
-            my.rid = null;
-            if (cb)
-                cb();
-        }
-        else if ($.isNumeric(wertung)) {
-            $.getJSON('wertung.json', { vid: my.vid, wid: my.wid, rid: wertung },
-                function(w)  { my.selectWertung(w, cb) });
-        }
-        else if (my.rid !== wertung.rid) {
-            my.wertung = wertung;
-            my.rid = wertung.rid;
-            utils.information('Wertung <i>' + wertung.name + '</i> ausgewählt');
-            if (cb)
-                cb(wertung);
-        }
     }
 
     return my;

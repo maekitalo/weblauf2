@@ -200,6 +200,7 @@ void WertungManager::putWertung(const Wertung& w)
             select max(wer_rid)
               from wertung
              where wer_vid = :vid
+               and wer_wid = :wid
         )SQL");
 
         tntdb::Statement ins = _ctx.impl().conn().prepareCached(R"SQL(

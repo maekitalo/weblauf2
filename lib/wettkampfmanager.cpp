@@ -120,8 +120,8 @@ void WettkampfManager::putWettkampf(const Wettkampf& w)
            .set("wid", w._wid)
            .set("name", w._name)
            .set("art", w._art)
-           .set("sta_von", w._staVon)
-           .set("sta_bis", w._staBis)
+           .set("staVon", w._staVon)
+           .set("staBis", w._staBis)
            .set("startzeit", w._startzeit)
            .execute();
     }

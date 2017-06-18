@@ -1,17 +1,6 @@
 define(['Noty', 'jquery'], function(Noty) {
     var my = {}
 
-    my.goToScreen = function(screen) {
-        requirejs(
-            [screen],
-            function(screen) {
-                screen.onLoad();
-            },
-            function(err) {
-                my.error(err.toString());
-            })
-    }
-
     my.error = function(msg, timeout)
     {
         new Noty(
