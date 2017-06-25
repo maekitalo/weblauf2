@@ -7,6 +7,7 @@
 #define KLASSE_H
 
 #include <string>
+#include <cxxtools/string.h>
 
 namespace cxxtools
 {
@@ -26,15 +27,15 @@ class Klasse
     unsigned _alterVon;
     unsigned _alterBis;
     unsigned short _prioritaet;
-    std::string _bezeichnung;
+    cxxtools::String _bezeichnung;
 
 public:
-    const std::string& ak() const             { return _ak; }
-    char geschlecht() const                   { return _geschlecht; }
-    unsigned alterVon() const                 { return _alterVon; }
-    unsigned alterBis() const                 { return _alterBis; }
-    unsigned short prioritaet() const         { return _prioritaet; }
-    const std::string& bezeichnung() const    { return _bezeichnung; }
+    const std::string& ak() const                { return _ak; }
+    char geschlecht() const                      { return _geschlecht; }
+    unsigned alterVon() const                    { return _alterVon; }
+    unsigned alterBis() const                    { return _alterBis; }
+    unsigned short prioritaet() const            { return _prioritaet; }
+    const cxxtools::String& bezeichnung() const  { return _bezeichnung; }
 };
 
 #endif

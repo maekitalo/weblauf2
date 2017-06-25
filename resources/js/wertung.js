@@ -9,14 +9,14 @@ define(['weblauf', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', 
 
         $('#content').load('html/wertung.html', {},
             function() {
-                $('#wettkampf').wettkampf(function() {
-                        $(this).val(weblauf.wid)
-                               .change(function(ev) {
-                                    weblauf.selectWettkampf(
-                                        $(this).val(), function() {
-                                            my.table.ajax.reload();
-                                        });
-                               });
+                $('#wettkampf').wettkampf(function(sel) {
+                    sel.val(weblauf.wid)
+                           .change(function(ev) {
+                                weblauf.selectWettkampf(
+                                    sel.val(), function() {
+                                        my.table.ajax.reload();
+                                    });
+                           });
                 })
 
                 my.table = $('#wertungenTable').DataTable({
@@ -78,13 +78,37 @@ define(['weblauf', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', 
 
                     dialog.load('html/wertung/edit.html', function() {
                         var wertungen = my.table.data();
+
+                        var selAk = $('[name=ak]', dialog);
+                        var selNoak = $('[name=noak]', dialog);
+                        $.getJSON('ak.json', function(allAk) {
+                            $.each(allAk, function(id, ak) {
+                                var sel = (wertung.ak.indexOf(ak.ak) >= 0) ? selAk : selNoak;
+                                $('<option>', {
+                                    value: ak.ak,
+                                    html: ak.bezeichnung
+                                }).appendTo(sel);
+                            })
+                        });
+
                         $('[name=abhaengig]', dialog).wertung(function() {
                             dialog.populate(wertung)
                                    .dialog({
                                         width: 700,
-                                        appendTo: ('#content'),
+                                        appendTo: '#content',
                                         buttons: editdialogButtons
                                    })
+                        });
+
+                        $('#akAdd', dialog).click(function(ev) {
+                            ev.preventDefault();
+                            $('#noak :selected').detach()
+                                .appendTo($('#ak'));
+                        });
+                        $('#akSub', dialog).click(function(ev) {
+                            ev.preventDefault();
+                            $('#ak :selected').detach()
+                                .appendTo($('#noak'));
                         });
                     })
                 });
@@ -99,12 +123,15 @@ define(['weblauf', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', 
                         var sel = $('[name=abhaengig]', dialog);
                         for (var i = 0; i < wertungen.length; ++i) {
                             var r = wertungen[i];
-                            $('<option>').val(r.rid).text(r.name).appendTo(sel);
+                            $('<option>', {
+                                value: r.rid,
+                                html: r.name
+                            }).appendTo(sel);
                         }
 
                         $(this).dialog({
                             width: 700,
-                            appendTo: ('#content'),
+                            appendTo: '#content',
                             buttons: editdialogButtons
                         })
                     })
@@ -120,7 +147,7 @@ define(['weblauf', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', 
                     }
 
                     var d = dialog.html("Wertung <b>" + wertung.name + "</b> wirklich löschen?").dialog({
-                        appendTo: ('#content'),
+                        appendTo: '#content',
                         modal: true,
                         buttons: {
                             "ja": function() {

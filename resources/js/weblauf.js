@@ -110,7 +110,7 @@ define(['utils', 'jquery'], function(utils) {
                 screen.onLoad();
             },
             function(err) {
-                my.error(err.toString());
+                utils.error(err.toString());
             })
     }
 

@@ -60,7 +60,7 @@ define(['weblauf', 'utils', 'jquery', 'datatables.net', 'datatables.select', 'jq
                         $(this).populate(veranstaltung)
                                .dialog({
                                     width: 500,
-                                    appendTo: ('#content'),
+                                    appendTo: '#content',
                                     buttons: editdialogButtons
                                 })
                     });
@@ -72,7 +72,7 @@ define(['weblauf', 'utils', 'jquery', 'datatables.net', 'datatables.select', 'jq
                         $(':input[name="datum"]', $(this)).datepicker({ dateFormat: 'yy-mm-dd'});
                         $(this).dialog({
                                     width: 500,
-                                    appendTo: ('#content'),
+                                    appendTo: '#content',
                                     buttons: editdialogButtons
                                 })
                     })
@@ -89,7 +89,7 @@ define(['weblauf', 'utils', 'jquery', 'datatables.net', 'datatables.select', 'jq
 
                     dialog.html("Veranstaltung <b>" + veranstaltung.name + "</b> wirklich löschen?").dialog({
                         modal: true,
-                        appendTo: ('#content'),
+                        appendTo: '#content',
                         buttons: {
                             "ja": function() {
                                 utils.action('veranstaltung/del', veranstaltung,

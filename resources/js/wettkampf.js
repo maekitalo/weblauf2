@@ -67,7 +67,7 @@ define(['weblauf', 'utils', 'jquery-ui', 'datatables.net', 'datatables.select', 
                         $(this).populate(wettkampf)
                                .dialog({
                                     width: 500,
-                                    appendTo: ('#content'),
+                                    appendTo: '#content',
                                     buttons: editdialogButtons
                                })
                     })
@@ -79,7 +79,7 @@ define(['weblauf', 'utils', 'jquery-ui', 'datatables.net', 'datatables.select', 
                         $(':input[name="wid"]', $(this)).val("0");
                         $(this).dialog({
                             width: 500,
-                            appendTo: ('#content'),
+                            appendTo: '#content',
                             buttons: editdialogButtons
                         })
                     })
@@ -95,7 +95,7 @@ define(['weblauf', 'utils', 'jquery-ui', 'datatables.net', 'datatables.select', 
                     }
 
                     var d = dialog.html("Wettkampf <b>" + wettkampf.name + "</b> wirklich löschen?").dialog({
-                        appendTo: ('#content'),
+                        appendTo: '#content',
                         modal: true,
                         buttons: {
                             "ja": function() {
