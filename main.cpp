@@ -35,6 +35,9 @@ int main(int argc, char* argv[])
          .setPathInfo(configuration.htdocs() + "/$1");
     }
 
+    app.mapUrl("^/(.*)", "modules")
+       .setPathInfo("$1");
+
     // map static resources
     app.mapUrl("^/(.*)", "resources")
        .setPathInfo("resources/$1");

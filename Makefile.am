@@ -92,7 +92,8 @@ weblauf2_SOURCES = \
 	$(ecppSources)
 
 nodist_weblauf2_SOURCES = \
-	resources.cpp
+	resources.cpp \
+	modules.cpp
 
 weblauf2_LDFLAGS = -lcxxtools -ltntnet
 weblauf2_LDADD = $(top_builddir)/libweblauf.la
@@ -117,7 +118,7 @@ include_HEADERS = \
 
 nobase_dist_noinst_DATA = $(staticSources)
 
-CLEANFILES = $(ecppSources:.ecpp=.cpp) $(ecppSources:.ecpp=.deps) resources.cpp
+CLEANFILES = $(ecppSources:.ecpp=.cpp) $(ecppSources:.ecpp=.deps) resources.cpp modules.cpp
 
 #
 # Rules for tntnet applications
@@ -125,7 +126,10 @@ CLEANFILES = $(ecppSources:.ecpp=.cpp) $(ecppSources:.ecpp=.deps) resources.cpp
 ECPPFLAGS=-I$(srcdir)
 
 resources.cpp: $(staticSources) Makefile.am
-	$(AM_V_GEN)$(ECPPC) -bb -z -n resources -p -o resources.cpp $(ECPPFLAGS) $(staticSources)
+	$(AM_V_GEN)$(ECPPC) -bb -z -n resources -p -r resources/ -o resources.cpp $(ECPPFLAGS) $(staticSources)
+
+modules.cpp: Makefile.am package.json
+	sh -c "find $(top_srcdir)/node_modules -type f|xargs $(ECPPC) -bb -z -n modules -p -r $(top_srcdir)/node_modules/ -o $(top_builddir)/modules.cpp"
 
 SUFFIXES=.ecpp .cpp
 

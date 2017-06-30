@@ -6,15 +6,12 @@
         <meta name="description" content="weblauf2 application">
         <link rel="stylesheet" href="weblauf2.css" type="text/css">
         <link rel="stylesheet" href="dropdown.css" type="text/css">
-        <link rel="stylesheet" href="DataTables-1.10.15/media/css/jquery.dataTables.css" type="text/css">
-        <link rel="stylesheet" href="DataTables-1.10.15/media/css/dataTables.foundation.css" type="text/css">
-        <link rel="stylesheet" href="DataTables-1.10.15/extensions/Select/css/select.dataTables.css" type="text/css">
-        <link rel="stylesheet" href="DataTables-1.10.15/extensions/Select/css/select.foundation.css" type="text/css">
-        <link rel="stylesheet" href="DataTables-1.10.15/extensions/FixedColumns/css/fixedColumns.dataTables.css" type="text/css">
-        <link rel="stylesheet" href="DataTables-1.10.15/extensions/FixedColumns/css/fixedColumns.foundation.css" type="text/css">
-        <link rel="stylesheet" href="jquery-ui-1.12.1.custom/jquery-ui.css" type="text/css">
-        <link rel="stylesheet" href="noty-3.1.0/lib/noty.css" type="text/css">
-        <script src="js/require.js" data-main="js/main.js"></script>
+        <link rel="stylesheet" href="datatables.net-zf/css/dataTables.foundation.css" type="text/css">
+        <link rel="stylesheet" href="datatables.net-select-zf/css/select.foundation.css" type="text/css">
+        <link rel="stylesheet" href="datatables.net-fixedcolumns-zf/css/fixedColumns.foundation.css" type="text/css">
+        <link rel="stylesheet" href="jquery-ui/themes/base/all.css" type="text/css">
+        <link rel="stylesheet" href="noty/lib/noty.css" type="text/css">
+        <script src="requirejs/require.js" data-main="js/main.js"></script>
     </head>
     <body>
         <div id="nav">

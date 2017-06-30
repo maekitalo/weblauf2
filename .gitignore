@@ -42,7 +42,9 @@ stamp-h1
 
 weblauf2
 resources.cpp
+modules.cpp
 webmain.cpp
 json/*.cpp
 action/*.cpp
 action/*/*.cpp
+node_modules

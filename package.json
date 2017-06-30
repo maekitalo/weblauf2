@@ -1,0 +1,18 @@
+{
+  "repository": {
+  },
+  "license": "SEE LICENSE IN lgpl++.txt",
+  "dependencies": {
+    "requirejs": "*",
+    "jquery": "*",
+    "jquery-ui": "*",
+    "chosen-js": "*",
+    "datatables.net": "*",
+    "datatables.net-zf": "*",
+    "datatables.net-select": "*",
+    "datatables.net-select-zf": "*",
+    "datatables.net-fixedcolumns": "*",
+    "datatables.net-fixedcolumns-zf": "*",
+    "noty": "*"
+  }
+}
