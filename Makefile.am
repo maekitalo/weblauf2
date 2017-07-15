@@ -25,28 +25,6 @@ libweblauf_la_SOURCES = \
 
 libweblauf_la_LIBADD = -lcxxtools -ltntdb
 
-jqueryUiSources = \
-	resources/jquery-ui-1.12.1.custom/external/jquery/jquery.js \
-	resources/jquery-ui-1.12.1.custom/jquery-ui.theme.min.css \
-	resources/jquery-ui-1.12.1.custom/jquery-ui.min.css \
-	resources/jquery-ui-1.12.1.custom/jquery-ui.theme.css \
-	resources/jquery-ui-1.12.1.custom/jquery-ui.structure.css \
-	resources/jquery-ui-1.12.1.custom/jquery-ui.min.js \
-	resources/jquery-ui-1.12.1.custom/jquery-ui.js \
-	resources/jquery-ui-1.12.1.custom/images/ui-icons_ffffff_256x240.png \
-	resources/jquery-ui-1.12.1.custom/images/ui-icons_777777_256x240.png \
-	resources/jquery-ui-1.12.1.custom/images/ui-icons_777620_256x240.png \
-	resources/jquery-ui-1.12.1.custom/images/ui-icons_cc0000_256x240.png \
-	resources/jquery-ui-1.12.1.custom/images/ui-icons_444444_256x240.png \
-	resources/jquery-ui-1.12.1.custom/images/ui-icons_555555_256x240.png \
-	resources/jquery-ui-1.12.1.custom/jquery-ui.structure.min.css \
-	resources/jquery-ui-1.12.1.custom/jquery-ui.css
-
-notySources = \
-	resources/noty-3.1.0/lib/noty.min.js \
-	resources/noty-3.1.0/lib/noty.js \
-	resources/noty-3.1.0/lib/noty.css
-
 ecppSources = \
 	action/veranstaltung/del.ecpp \
 	action/veranstaltung/save.ecpp \
@@ -69,8 +47,6 @@ ecppSources = \
 staticSources = \
 	resources/weblauf2.css \
 	resources/dropdown.css \
-	resources/js/jquery-3.2.1.js \
-	resources/js/require.js \
 	resources/js/main.js \
 	resources/js/teilnehmer.js \
 	resources/js/veranstaltung.js \
@@ -81,9 +57,7 @@ staticSources = \
 	resources/html/veranstaltung.html \
 	resources/html/veranstaltung/edit.html \
 	resources/html/wettkampf.html \
-	resources/html/wertung.html \
-	$(jqueryUiSources) \
-	$(notySources)
+	resources/html/wertung.html
 
 weblauf2_SOURCES = \
 	action.cpp \
@@ -129,7 +103,7 @@ resources.cpp: $(staticSources) Makefile.am
 	$(AM_V_GEN)$(ECPPC) -bb -z -n resources -p -r resources/ -o resources.cpp $(ECPPFLAGS) $(staticSources)
 
 modules.cpp: Makefile.am package.json
-	sh -c "find $(top_srcdir)/node_modules -type f|xargs $(ECPPC) -bb -z -n modules -p -r $(top_srcdir)/node_modules/ -o $(top_builddir)/modules.cpp"
+	sh -c "find node_modules/ -type f -a ! -name '\.*' -a ! -name '*.md' -a ! -name '*.markdown' -a ! -name '*.scss' -a ! -name package.json -a ! -name '*.txt' -a ! -name '*.map'|egrep -v 'tests|demos' | xargs $(ECPPC) -bb -z -n modules -p -r node_modules/ -o $(top_builddir)/modules.cpp"
 
 SUFFIXES=.ecpp .cpp
 

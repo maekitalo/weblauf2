@@ -1,4 +1,4 @@
-define(['weblauf', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', 'populate'], function(weblauf, utils) {
+define(['weblauf', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', 'chosen-js', 'populate'], function(weblauf, utils) {
     var my = {}
 
     my.onLoad = function() {
@@ -81,6 +81,7 @@ define(['weblauf', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', 
 
                         var selAk = $('[name=ak]', dialog);
                         var selNoak = $('[name=noak]', dialog);
+                        var selAllak = $('[name=allak]', dialog);
                         $.getJSON('ak.json', function(allAk) {
                             $.each(allAk, function(id, ak) {
                                 var sel = (wertung.ak.indexOf(ak.ak) >= 0) ? selAk : selNoak;
@@ -88,13 +89,21 @@ define(['weblauf', 'utils', 'datatables.net', 'datatables.select', 'jquery-ui', 
                                     value: ak.ak,
                                     html: ak.bezeichnung
                                 }).appendTo(sel);
+                                $('<option>', {
+                                    value: ak.ak,
+                                    html: ak.bezeichnung
+                                }).appendTo(selAllak);
                             })
                         });
+
+                        selNoak.chosen();
+                        selAllak.chosen();
 
                         $('[name=abhaengig]', dialog).wertung(function() {
                             dialog.populate(wertung)
                                    .dialog({
                                         width: 700,
+                                        height: 500,
                                         appendTo: '#content',
                                         buttons: editdialogButtons
                                    })

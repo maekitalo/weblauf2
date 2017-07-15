@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="datatables.net-fixedcolumns-zf/css/fixedColumns.foundation.css" type="text/css">
         <link rel="stylesheet" href="jquery-ui/themes/base/all.css" type="text/css">
         <link rel="stylesheet" href="noty/lib/noty.css" type="text/css">
+        <link rel="stylesheet" href="chosen-js/chosen.css" type="text/css">
         <script src="requirejs/require.js" data-main="js/main.js"></script>
     </head>
     <body>

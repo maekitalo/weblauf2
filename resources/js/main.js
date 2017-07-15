@@ -5,8 +5,10 @@ requirejs.config({
         'datatables.net': '../datatables.net/js/jquery.dataTables',
         'datatables.select': '../datatables.net-select/js/dataTables.select',
         'datatables.fixedcolumns': '../datatables.net-fixedcolumns/js/dataTables.fixedColumns',
-        'jquery-ui': '../jquery-ui-1.12.1.custom/jquery-ui',
-        'Noty': '../noty/lib/noty'
+        //'jquery-ui': '../jquery-ui-1.12.1.custom/jquery-ui',
+        'jquery-ui': '../jquery-ui/ui/version',
+        'Noty': '../noty/lib/noty',
+        'chosen-js': '../chosen-js/chosen.jquery'
     },
 
     shim: {
@@ -14,6 +16,11 @@ requirejs.config({
             exports: '$'
         },
         'jquery-ui': {
+            deps: [
+                '../jquery-ui/ui/widgets/dialog'
+            ]
+        },
+        'chosen-js': {
             deps: ['jquery']
         }
     }
